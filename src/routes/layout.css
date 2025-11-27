@@ -1,1 +1,11 @@
 @import 'tailwindcss';
+
+@layer base {
+	body {
+		@apply bg-white text-black dark:bg-gray-900 dark:text-white;
+	}
+
+	button {
+		@apply hover:cursor-pointer bg-gray-400 dark:bg-gray-700 p-1 rounded-md;
+	}
+}
