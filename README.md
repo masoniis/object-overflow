@@ -12,3 +12,8 @@ npm run dev
 # or start the server and open the app in a new browser tab
 npm run dev -- --open
 ```
+
+## Design patterns
+
+1. `GameState` Singleton pattern
+   The state of the game for tracking currency uses the singleton pattern to ensure that there is only one global state that represents progress.

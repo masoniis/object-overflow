@@ -1,5 +1,9 @@
-<h1>Welcome to SvelteKit</h1>
+<script lang="ts">
+	import { GameState } from '$lib/game/GameState.svelte.js';
 
-<p>
-	Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation
-</p>
+	const gameState = GameState.getInstance();
+</script>
+
+<p>Objects: {gameState.objects}</p>
+
+<button onclick={() => gameState.addObjects(1)}>Add Object</button>
