@@ -1,0 +1,7 @@
+export interface Tickable {
+	/**
+	 * Updates the system based on the time passed.
+	 * @param dt - Delta time in seconds (e.g., 0.016 for 60fps)
+	 */
+	tick(dt: number): void;
+}
