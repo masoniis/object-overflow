@@ -24,7 +24,6 @@
           packages = with pkgs; [
             bun
             just
-            svelte
           ];
         };
       }
