@@ -20,8 +20,10 @@ export class GameState {
 		console.log('GameState initialized!');
 
 		this._producers = [
-			new Producer('object', 'Basic Object', 10, 1),
-			new Producer('object_2', 'Epic Object', 20, 5)
+			new Producer('basic_object', 'Basic Object', 10, 1),
+			new Producer('epic_object', 'Epic Object', 20, 2),
+			new Producer('super_epic_object', 'Super Epic Object', 50, 5),
+			new Producer('insanely_epic_object', 'Insanely Epic Object', 100, 10)
 		];
 	}
 
