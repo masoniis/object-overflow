@@ -1,17 +1,16 @@
-import type { Tickable } from './tickable_interface';
+import { GameSystem } from '../abstract_gamesystem.ts';
 import type { GameState } from '$lib/game/game_state.svelte';
 
-export class AutosaveTickable implements Tickable {
+export class AutosaveSystem extends GameSystem {
 	private time_since_last_save = 0;
 
 	constructor(
 		private state: GameState,
 		private save_interval: number = 60
 	) {
-		if (!state) {
-			throw new Error('AutosaveTickable requires GameState!');
-		}
-		console.log(`💾 Autosave enabled every ${this.save_interval} seconds`);
+		super(state);
+		this.save_interval = save_interval;
+		console.log(`💾 Autosave set (${this.save_interval} seconds)`);
 	}
 
 	tick(dt: number) {
