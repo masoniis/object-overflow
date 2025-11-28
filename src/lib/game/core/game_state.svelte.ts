@@ -2,6 +2,7 @@ import { Producer, type ProducerSaveData } from '$lib/game/models/producers/prod
 import type { Effect } from '$lib/game/models/effects/effect.svelte';
 import { ProductionMultiplierEffect } from '$lib/game/models/effects/definitions/production_multiplier';
 import type { ScreenObject } from '$lib/game/models/screen_objects/screen_object';
+import { INITIAL_PRODUCERS } from '../data/initial_producers';
 
 /// The shape of the global save file
 interface GlobalSaveData {
@@ -21,13 +22,6 @@ export class GameState {
 
 	private constructor() {
 		console.log('GameState initialized!');
-
-		this._producers = [
-			new Producer('basic_object', 'Basic Object', 10, 1),
-			new Producer('epic_object', 'Epic Object', 20, 2),
-			new Producer('super_epic_object', 'Super Epic Object', 50, 5),
-			new Producer('insanely_epic_object', 'Insanely Epic Object', 100, 10)
-		];
 	}
 
 	/// Get a reference to the global `GameState` instance.
@@ -60,7 +54,7 @@ export class GameState {
 	//         producer management
 	// -----------------------------------
 
-	private _producers: Producer[] = $state([]);
+	private _producers: Producer[] = $state([...INITIAL_PRODUCERS]);
 
 	get producers() {
 		return this._producers;
@@ -130,6 +124,12 @@ export class GameState {
 	//         save/load management
 	// ------------------------------------
 
+	private _savedObjectCount = $state(this.getSaveObjectCount());
+
+	get savedObjectCount() {
+		return this._savedObjectCount;
+	}
+
 	public save() {
 		const data: GlobalSaveData = {
 			objects: this._objects,
@@ -140,6 +140,7 @@ export class GameState {
 		};
 
 		localStorage.setItem(GameState.SAVE_KEY, JSON.stringify(data));
+		this._savedObjectCount = this._objects;
 		console.log('💾 Game Saved');
 	}
 
@@ -166,6 +167,18 @@ export class GameState {
 			console.log('✅ Game Loaded');
 		} catch (e) {
 			console.error('❌ Failed to load save data:', e);
+		}
+	}
+
+	private getSaveObjectCount(): number | null {
+		const raw = localStorage.getItem(GameState.SAVE_KEY);
+		if (!raw) return null;
+
+		try {
+			const data: GlobalSaveData = JSON.parse(raw);
+			return data.objects ?? 0;
+		} catch (e) {
+			return null;
 		}
 	}
 
