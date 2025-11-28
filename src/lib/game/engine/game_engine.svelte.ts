@@ -19,7 +19,7 @@ export class GameEngine {
 	private lastTime: number = 0;
 
 	constructor() {
-		console.log('GameEngine instantiated');
+		console.log('‼️ GameEngine instantiated');
 	}
 
 	// INFO: -----------------------------

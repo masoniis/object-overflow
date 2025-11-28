@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { GameState } from '$lib/game/game_state.svelte.js';
 	import { GameEngine } from '$lib/game/engine/game_engine.svelte.js';
-	import { UpdateProductionTickable } from '$lib/game/engine/tickables/update_production.js';
-	import { AutosaveTickable } from '$lib/game/engine/tickables/autosave.js';
+	import { ApplyProductionSystem } from '$lib/game/engine/systems/apply_production.js';
+	import { AutosaveSystem } from '$lib/game/engine/systems/autosave.js';
 	import { onMount } from 'svelte';
 
 	const gameState = GameState.getInstance();
@@ -12,8 +12,8 @@
 		hasSaveData = gameState.hasSaveData();
 
 		const engine = new GameEngine();
-		engine.addSystem(new UpdateProductionTickable(gameState));
-		engine.addSystem(new AutosaveTickable(gameState));
+		engine.addSystem(new ApplyProductionSystem(gameState));
+		engine.addSystem(new AutosaveSystem(gameState));
 		engine.start();
 		return () => engine.stop();
 	});
