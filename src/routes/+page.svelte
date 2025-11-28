@@ -34,21 +34,23 @@
 <button onclick={manualSave}>Save Game</button>
 <button onclick={manualLoad} disabled={!hasSaveData}>Load Game</button>
 
-<hr />
+<hr class="py-2" />
 
-<div class="bg-gray-500">
+<div class="grid grid-cols-1 sm:grid-cols-2">
 	{#each gameState.producers as producer}
-		<div class="item">
-			<h3>{producer.name}</h3>
+		<div class="bg-gray-300 dark:bg-gray-600 m-1 p-2 rounded-2xl">
+			<h3 class="flex flex-row justify-between pb-1.5">
+				<div class="font-bold content-center">{producer.name}</div>
+				<button
+					disabled={gameState.objects < producer.currentCost}
+					onclick={() => producer.buy(gameState)}
+				>
+					Buy (💰{producer.currentCost})
+				</button>
+			</h3>
+			<hr />
 			<p>Owned: {producer.count}</p>
 			<p>Production: {producer.totalProduction}/sec</p>
-
-			<button
-				disabled={gameState.objects < producer.currentCost}
-				onclick={() => producer.buy(gameState)}
-			>
-				Buy (Cost: {producer.currentCost})
-			</button>
 		</div>
 	{/each}
 </div>
