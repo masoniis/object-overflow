@@ -1,6 +1,12 @@
 import { GameState } from '$lib/game/game_state.svelte.js';
+import type { Savable } from '$lib/game/interfaces.ts';
 
-export class Producer {
+export interface ProducerSaveData {
+	count: number;
+	multiplier: number;
+}
+
+export class Producer implements Savable<ProducerSaveData> {
 	id: string;
 	name: string;
 	baseCost: number;
@@ -27,5 +33,21 @@ export class Producer {
 	buy(gameState: GameState) {
 		gameState.removeObjects(this.currentCost);
 		this.count += 1;
+	}
+
+	// INFO: -----------------------
+	//         savable logic
+	// -----------------------------
+
+	save(): ProducerSaveData {
+		return {
+			count: this.count,
+			multiplier: this.multiplier
+		};
+	}
+
+	load(data: ProducerSaveData) {
+		this.count = data.count ?? 0;
+		this.multiplier = data.multiplier ?? 1;
 	}
 }

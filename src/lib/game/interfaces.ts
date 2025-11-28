@@ -5,3 +5,8 @@ export interface Tickable {
 	 */
 	tick(dt: number): void;
 }
+
+export interface Savable<T> {
+	save(): T;
+	load(data: T): void;
+}

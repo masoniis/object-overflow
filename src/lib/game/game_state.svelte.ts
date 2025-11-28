@@ -1,14 +1,9 @@
 import { Producer } from '$lib/game/producer.svelte.js';
 
-interface SavedProducerState {
-	id: string;
-	count: number;
-	multiplier: number;
-}
-
-interface SavedGameState {
+/// The shape of the Global Save File
+interface GlobalSaveData {
 	objects: number;
-	producers: SavedProducerState[];
+	producers: { id: string; data: ProducerSaveData }[];
 }
 
 /// The core state singleton that represents the game (currency, income, etc)
@@ -75,41 +70,42 @@ export class GameState {
 	// ------------------------------------
 
 	public save() {
-		const savedProducers: SavedProducerState[] = this._producers.map((p) => ({
-			id: p.id,
-			count: p.count,
-			multiplier: p.multiplier
-		}));
-
-		const savedState: SavedGameState = {
+		const data: GlobalSaveData = {
 			objects: this._objects,
-			producers: savedProducers
+			producers: this._producers.map((p) => ({
+				id: p.id,
+				data: p.save()
+			}))
 		};
 
-		localStorage.setItem(GameState.SAVE_KEY, JSON.stringify(savedState));
+		localStorage.setItem(GameState.SAVE_KEY, JSON.stringify(data));
 		console.log('💾 Game Saved');
 	}
 
 	public load() {
-		const savedData = localStorage.getItem(GameState.SAVE_KEY);
-		if (!savedData) {
-			console.log('🤷 No save data found');
-			return;
-		}
+		const raw = localStorage.getItem(GameState.SAVE_KEY);
+		if (!raw) return;
 
-		const savedState: SavedGameState = JSON.parse(savedData);
+		try {
+			const data: GlobalSaveData = JSON.parse(raw);
 
-		this._objects = savedState.objects;
+			// load currency
+			this._objects = data.objects ?? 0;
 
-		for (const savedProducer of savedState.producers) {
-			const producer = this._producers.find((p) => p.id === savedProducer.id);
-			if (producer) {
-				producer.count = savedProducer.count;
-				producer.multiplier = savedProducer.multiplier;
+			// load saved producers
+			for (const entry of data.producers) {
+				const producerDef = this._producers.find((p) => p.id === entry.id);
+				if (producerDef) {
+					producerDef.load(entry.data);
+				} else {
+					console.warn(`⚠️ Save file contains unknown producer: ${entry.id}`);
+				}
 			}
-		}
 
-		console.log('✅ Game Loaded');
+			console.log('✅ Game Loaded');
+		} catch (e) {
+			console.error('❌ Failed to load save data:', e);
+		}
 	}
 
 	public hasSaveData(): boolean {
