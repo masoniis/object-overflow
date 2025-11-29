@@ -3,3 +3,6 @@ run:
 
 check:
 	bun check
+
+test:
+	bun test

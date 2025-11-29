@@ -3,7 +3,7 @@ import { GameSystem } from '../abstract_gamesystem';
 import { GoldenObject } from '../../models/screen_objects/golden_object';
 import { createRandomEffect } from '../../models/effects/effect_factory';
 
-export class GoldenObjectSystem extends GameSystem {
+export class SpawnGoldenObjectsSystem extends GameSystem {
 	private timeToNextSpawn = this.getRandomSpawnTime();
 
 	tick(dt: number) {
@@ -16,7 +16,7 @@ export class GoldenObjectSystem extends GameSystem {
 	}
 
 	private getRandomSpawnTime(): number {
-		return Math.random() * 30000 + 60000; // 30 to 90 seconds
+		return Math.random() * 30000 + 6000;
 	}
 
 	private spawnGoldenObject() {
