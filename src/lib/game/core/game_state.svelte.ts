@@ -2,9 +2,8 @@ import { Producer, type ProducerSaveData } from '$lib/game/models/producers/prod
 import type { Effect } from '$lib/game/models/effects/effect.svelte';
 import { ProductionMultiplierEffect } from '$lib/game/models/effects/definitions/production_multiplier';
 import type { ScreenObject } from '$lib/game/models/screen_objects/screen_object';
-import { INITIAL_PRODUCERS } from '../data/initial_producers';
+import { INITIAL_PRODUCERS, INITIAL_UPGRADES } from '../data/index.ts';
 import type { Upgrade, UpgradeSaveData } from '$lib/game/models/upgrades/upgrade.svelte';
-import { INITIAL_UPGRADES } from '../data/initial_upgrades';
 
 /// The shape of the global save file
 interface GlobalSaveData {
@@ -19,6 +18,7 @@ export class GameState {
 
 	// default state for game elements
 	private static readonly DEFAULT_MANUAL_CLICK_POWER = 1;
+	private static readonly DEFAULT_OBJECTS_COUNT = 0;
 
 	// INFO: ------------------------
 	//        singleton setup
@@ -42,12 +42,12 @@ export class GameState {
 	//         resources management
 	// ------------------------------------
 
-	private _objects = $state(0);
+	private _objects = $state(GameState.DEFAULT_OBJECTS_COUNT);
 	get objects() {
 		return this._objects;
 	}
 
-	manualClickPower = $state(1);
+	manualClickPower = $state(GameState.DEFAULT_MANUAL_CLICK_POWER);
 
 	/**
 	 *  Modify a target resource `id` by number `amount`

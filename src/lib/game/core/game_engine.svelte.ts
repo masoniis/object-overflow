@@ -1,9 +1,9 @@
 import type { Tickable } from '$lib/game/core/interfaces';
 
 export class GameEngine {
-	// The max value in which a frame delta can be to ensure that
-	// nothing crazy happens.
-	private static readonly MAX_DELTA_TIME = 1.0;
+	// The max value in which a tick frame delta can be to ensure that
+	// nothing crazy happens (under extreme lag or otherwise).
+	private static readonly MAX_TICK_DELTA_TIME = 1.0;
 
 	// INFO: ------------------------
 	//         instance state
@@ -78,19 +78,19 @@ export class GameEngine {
 		const currentTime = performance.now();
 		let dt = (currentTime - this.lastTime) / 1000;
 
-		if (dt > GameEngine.MAX_DELTA_TIME) {
-			dt = GameEngine.MAX_DELTA_TIME;
+		if (dt > GameEngine.MAX_TICK_DELTA_TIME) {
+			dt = GameEngine.MAX_TICK_DELTA_TIME;
 		}
 
 		this.lastTime = currentTime;
 
 		// run tick and schedule the next frame
-		this.tick(dt);
+		this.tick_all_systems(dt);
 		this.animationFrameId = requestAnimationFrame(() => this.loop());
 	}
 
 	// Iterate all systems and tick them.
-	private tick(dt: number) {
+	private tick_all_systems(dt: number) {
 		for (const system of this.systems) {
 			system.tick(dt);
 		}

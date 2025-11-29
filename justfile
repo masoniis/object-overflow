@@ -5,4 +5,4 @@ check:
 	bun check
 
 test:
-	bun test
+	bun run test
