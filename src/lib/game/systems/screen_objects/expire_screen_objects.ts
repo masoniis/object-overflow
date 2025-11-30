@@ -1,7 +1,7 @@
 import { GameSystem } from '../abstract_gamesystem';
 
 export class ScreenObjectLifecycleSystem extends GameSystem {
-	tick(_dt: number) {
+	tick(_delta_seconds: number) {
 		const objects = this.state.screenObjects;
 
 		// iterate backwards for safe removal

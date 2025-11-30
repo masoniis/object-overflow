@@ -2,7 +2,7 @@ import { GameSystem } from '../abstract_gamesystem.ts';
 import { ProductionMultiplierEffect } from '$lib/game/models/effects/definitions/production_multiplier';
 
 export class ApplyProductionSystem extends GameSystem {
-	tick(dt: number) {
+	tick(delta_seconds: number) {
 		const producers = this.state.producers;
 
 		// get production
@@ -26,6 +26,6 @@ export class ApplyProductionSystem extends GameSystem {
 		rate *= multiplier;
 
 		// update global state
-		this.state.modifyResource('object', rate * dt);
+		this.state.modifyResource('object', rate * delta_seconds);
 	}
 }

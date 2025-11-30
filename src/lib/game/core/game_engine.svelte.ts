@@ -76,23 +76,23 @@ export class GameEngine {
 
 		// calculate delta time
 		const currentTime = performance.now();
-		let dt = (currentTime - this.lastTime) / 1000;
+		let delta_seconds = (currentTime - this.lastTime) / 1000;
 
-		if (dt > GameEngine.MAX_TICK_DELTA_TIME) {
-			dt = GameEngine.MAX_TICK_DELTA_TIME;
+		if (delta_seconds > GameEngine.MAX_TICK_DELTA_TIME) {
+			delta_seconds = GameEngine.MAX_TICK_DELTA_TIME;
 		}
 
 		this.lastTime = currentTime;
 
 		// run tick and schedule the next frame
-		this.tick_all_systems(dt);
+		this.tick_all_systems(delta_seconds);
 		this.animationFrameId = requestAnimationFrame(() => this.loop());
 	}
 
 	// Iterate all systems and tick them.
-	private tick_all_systems(dt: number) {
+	private tick_all_systems(delta_seconds: number) {
 		for (const system of this.systems) {
-			system.tick(dt);
+			system.tick(delta_seconds);
 		}
 	}
 }

@@ -12,5 +12,5 @@ export abstract class GameSystem implements Tickable {
 		this.state = state;
 	}
 
-	abstract tick(dt: number): void;
+	abstract tick(delta_seconds: number): void;
 }

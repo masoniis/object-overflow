@@ -1,35 +1,31 @@
-import { GameState } from '$lib/game/core/game_state.svelte';
-import { GameSystem } from '../abstract_gamesystem';
+import { RandomTriggerSystem } from '../random_trigger_system';
 import { NefariousObject } from '$lib/game/models/screen_objects/nefarious_object';
+import type { GameState } from '$lib/game/core/game_state.svelte';
 
-export class SpawnNefariousObjectsSystem extends GameSystem {
-	private timeToNextSpawn = this.getRandomSpawnTime();
+export class SpawnNefariousObjectsSystem extends RandomTriggerSystem {
+	private static OBJECTS_LOST_ON_CLICK = 500;
 
-	tick(dt: number) {
-		this.timeToNextSpawn -= dt * 1000;
-
-		if (this.timeToNextSpawn <= 0) {
-			this.spawnNefariousObject();
-			this.timeToNextSpawn = this.getRandomSpawnTime();
-		}
+	constructor(state: GameState) {
+		// random trigger between 16s and 51s
+		super(state, 16, 51);
 	}
 
-	private getRandomSpawnTime(): number {
-		return Math.random() * 35000 + 16000;
+	protected onTrigger(): void {
+		this.spawnNefariousObject();
 	}
 
 	private spawnNefariousObject() {
 		console.log('Nefarious object spawned!');
 
-		// collection logic
 		const onCollect = (game: GameState) => {
-			game.modifyResource('object', -500);
+			game.modifyResource('object', -SpawnNefariousObjectsSystem.OBJECTS_LOST_ON_CLICK);
 			console.log('Uh oh! Nefarious object clicked!');
+
+			// Spawn two more immediately on click
 			this.spawnNefariousObject();
 			this.spawnNefariousObject();
 		};
 
-		// instantiate and add
 		const nefarious = new NefariousObject(onCollect);
 		this.state.addScreenObject(nefarious);
 	}
