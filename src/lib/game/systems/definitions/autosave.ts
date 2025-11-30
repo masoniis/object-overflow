@@ -1,7 +1,7 @@
-import { GameSystem } from '../abstract_gamesystem';
+import { System } from '../system';
 import type { GameState } from '$lib/game/core/game_state.svelte';
 
-export class AutosaveSystem extends GameSystem {
+export class AutosaveSystem extends System {
 	private time_since_last_save = 0;
 
 	constructor(

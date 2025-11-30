@@ -1,7 +1,7 @@
-import { GameSystem } from './abstract_gamesystem';
+import { System } from './system';
 import type { GameState } from '$lib/game/core/game_state.svelte';
 
-export abstract class RandomTriggerSystem extends GameSystem {
+export abstract class RandomTriggerSystem extends System {
 	private timeToNextTrigger: number;
 	private minSeconds: number;
 	private maxSeconds: number;

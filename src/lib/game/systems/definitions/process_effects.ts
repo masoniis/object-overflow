@@ -1,6 +1,6 @@
-import { GameSystem } from '../abstract_gamesystem.ts';
+import { System } from '../system.ts';
 
-export class ProcessEffectsSystem extends GameSystem {
+export class ProcessEffectsSystem extends System {
 	tick(_delta_seconds: number) {
 		for (const effect of this.state.effects) {
 			if (effect.isExpired) {

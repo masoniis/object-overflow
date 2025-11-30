@@ -20,22 +20,20 @@
 	);
 </script>
 
-{#each goldenObjects as obj (obj.id)}
+{#each goldenObjects as goldenObject (goldenObject.id)}
 	<GoldenObject
-		object={obj}
+		object={goldenObject}
 		onClick={() => {
-			obj.onClick(gameState);
-			gameState.removeScreenObject(obj);
+			goldenObject.onClick(gameState);
 		}}
 	/>
 {/each}
 
-{#each nefariousObjects as obj (obj.id)}
+{#each nefariousObjects as nefariousObject (nefariousObject.id)}
 	<NefariousObject
-		object={obj}
+		object={nefariousObject}
 		onClick={() => {
-			obj.onClick(gameState);
-			gameState.removeScreenObject(obj);
+			nefariousObject.onClick(gameState);
 		}}
 	/>
 {/each}

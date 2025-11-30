@@ -1,7 +1,7 @@
-import { GameSystem } from '../abstract_gamesystem.ts';
+import { System } from '../system.ts';
 import { ProductionMultiplierEffect } from '$lib/game/models/effects/definitions/production_multiplier';
 
-export class ApplyProductionSystem extends GameSystem {
+export class ApplyProductionSystem extends System {
 	tick(delta_seconds: number) {
 		const producers = this.state.producers;
 

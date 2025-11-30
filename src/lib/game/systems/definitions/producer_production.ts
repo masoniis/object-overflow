@@ -1,6 +1,6 @@
-import { GameSystem } from '../abstract_gamesystem';
+import { System } from '../system';
 
-export class ProducerProductionSystem extends GameSystem {
+export class ProducerProductionSystem extends System {
 	tick(delta_seconds: number) {
 		for (const producer of this.state.producers) {
 			if (producer.count > 0) {
