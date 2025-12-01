@@ -3,8 +3,8 @@
 
 	let { onClick, object } = $props<{ onClick: () => void; object: NefariousObject }>();
 
-	let top = $derived(object.y);
-	let left = $derived(object.x);
+	let top = $derived(object.y_pos);
+	let left = $derived(object.x_pos);
 </script>
 
 <button

@@ -1,5 +1,5 @@
 import { RandomTriggerSystem } from '../random_trigger_system';
-import { NefariousObject } from '$lib/game/models/screen_objects/nefarious_object';
+import { NefariousObject } from '$lib/game/models/screen_objects/interactive/nefarious_object';
 import type { GameState } from '$lib/game/core/game_state.svelte';
 
 export class SpawnNefariousObjectsSystem extends RandomTriggerSystem {

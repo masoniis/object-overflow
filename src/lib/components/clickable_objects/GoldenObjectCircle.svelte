@@ -1,10 +1,10 @@
 <script lang="ts">
-	import type { GoldenObject } from '$lib/game/models/screen_objects/golden_object';
+	import type { GoldenObject } from '$lib/game/models/screen_objects/interactive/golden_object';
 
 	let { onClick, object } = $props<{ onClick: () => void; object: GoldenObject }>();
 
-	let top = $derived(object.y);
-	let left = $derived(object.x);
+	let top = $derived(object.y_pos);
+	let left = $derived(object.x_pos);
 </script>
 
 <button

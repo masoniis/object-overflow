@@ -1,39 +1,45 @@
 <script lang="ts">
 	import { GameState } from '$lib/game/core/game_state.svelte';
-	import GoldenObject from './GoldenObject.svelte';
-	import { GoldenObject as GoldenObjectClass } from '$lib/game/models/screen_objects/golden_object';
-	import NefariousObject from './NefariousObject.svelte';
-	import { NefariousObject as NefariousObjectClass } from '$lib/game/models/screen_objects/nefarious_object';
+	import GoldenObjectCircle from './GoldenObjectCircle.svelte';
+	import { GoldenObject } from '$lib/game/models/screen_objects/interactive/golden_object';
+	import NefariousObjectCircle from './NefariousObjectCircle.svelte';
+	import { NefariousObject } from '$lib/game/models/screen_objects/interactive/nefarious_object';
+	import { FloatingText } from '$lib/game/models/screen_objects/floating_text/floating_text';
+	import FloatingTextElement from './FloatingTextElement.svelte';
 
 	const gameState = GameState.getInstance();
 
 	const goldenObjects = $derived(
-		gameState.screenObjects.filter(
-			(obj): obj is GoldenObjectClass => obj instanceof GoldenObjectClass
-		)
+		gameState.screenObjects.filter((obj): obj is GoldenObject => obj instanceof GoldenObject)
 	);
 
 	const nefariousObjects = $derived(
-		gameState.screenObjects.filter(
-			(obj): obj is NefariousObjectClass => obj instanceof NefariousObjectClass
-		)
+		gameState.screenObjects.filter((obj): obj is NefariousObject => obj instanceof NefariousObject)
+	);
+
+	const floatingTexts = $derived(
+		gameState.screenObjects.filter((obj): obj is FloatingText => obj instanceof FloatingText)
 	);
 </script>
 
 {#each goldenObjects as goldenObject (goldenObject.id)}
-	<GoldenObject
+	<GoldenObjectCircle
 		object={goldenObject}
 		onClick={() => {
-			goldenObject.onClick(gameState);
+			goldenObject.interact(gameState);
 		}}
 	/>
 {/each}
 
 {#each nefariousObjects as nefariousObject (nefariousObject.id)}
-	<NefariousObject
+	<NefariousObjectCircle
 		object={nefariousObject}
 		onClick={() => {
-			nefariousObject.onClick(gameState);
+			nefariousObject.interact(gameState);
 		}}
 	/>
+{/each}
+
+{#each floatingTexts as textObj (textObj.id)}
+	<FloatingTextElement object={textObj} />
 {/each}

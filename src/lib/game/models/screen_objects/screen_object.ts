@@ -1,42 +1,28 @@
 import type { GameState } from '$lib/game/core/game_state.svelte';
 
-// A class representing objects that appear on the screen, and can be interacted
-// with by the user to trigger other logic before disappearing.
 export abstract class ScreenObject {
 	id = crypto.randomUUID();
-	x: number;
-	y: number;
+	x_pos: number;
+	y_pos: number;
+
+	// Lifecycle logic
 	spawnedAt: number = Date.now();
-
-	// guard against double-clicks
-	protected hasInteracted = false;
-
-	// the duration the object remains on screen before expiring
 	abstract duration: number;
 
-	constructor(protected onInteractCallback: (game: GameState) => void) {
-		this.x = Math.random() * 100;
-		this.y = Math.random() * 100;
+	/**
+	 * Creates a new screen object.
+	 * * @param x_pos Horizontal position as a percentage of the screen width.
+	 * @param y_pos Vertical position as a percentage of the screen height.
+	 */
+	constructor(x_pos: number, y_pos: number) {
+		this.x_pos = x_pos;
+		this.y_pos = y_pos;
 	}
 
 	/**
-	 * An interaction intended to be called by the UI.
+	 * Optional hook for when the object expires naturally.
 	 */
-	interact(game: GameState): void {
-		if (this.hasInteracted || this.isExpired) return;
-		this.hasInteracted = true;
-
-		// run behavior and remove the object after interaction
-		this.onInteractCallback(game);
-		game.removeScreenObject(this);
-	}
-
-	/**
-	 * What happens if the object disappears without being clicked?
-	 */
-	onExpire(_game: GameState): void {
-		// defaults to nothing
-	}
+	onExpire(_game: GameState): void {}
 
 	get isExpired(): boolean {
 		return Date.now() - this.spawnedAt >= this.duration;
