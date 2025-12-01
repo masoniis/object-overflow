@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { GameState } from '$lib/game/game_state.svelte.js';
+	import { GameState } from '$lib/game/state/game_state.svelte.js';
 	import { GameEngine } from '$lib/game/engine/game_engine.svelte.js';
 	import { ApplyProductionSystem } from '$lib/game/engine/systems/apply_production.js';
 	import { AutosaveSystem } from '$lib/game/engine/systems/autosave.js';
@@ -11,9 +11,9 @@
 	onMount(() => {
 		hasSaveData = gameState.hasSaveData();
 
-		const engine = new GameEngine();
-		engine.addSystem(new ApplyProductionSystem(gameState));
-		engine.addSystem(new AutosaveSystem(gameState));
+		const engine = new GameEngine()
+			.addSystem(new ApplyProductionSystem(gameState))
+			.addSystem(new AutosaveSystem(gameState));
 		engine.start();
 		return () => engine.stop();
 	});

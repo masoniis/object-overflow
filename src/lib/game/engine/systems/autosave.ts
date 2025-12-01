@@ -1,11 +1,11 @@
 import { GameSystem } from '../abstract_gamesystem.ts';
-import type { GameState } from '$lib/game/game_state.svelte';
+import type { GameState } from '$lib/game/state/game_state.svelte';
 
 export class AutosaveSystem extends GameSystem {
 	private time_since_last_save = 0;
 
 	constructor(
-		private state: GameState,
+		protected state: GameState,
 		private save_interval: number = 60
 	) {
 		super(state);

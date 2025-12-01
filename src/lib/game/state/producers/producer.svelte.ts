@@ -1,11 +1,17 @@
-import { GameState } from '$lib/game/game_state.svelte.js';
-import type { Savable } from '$lib/game/interfaces.ts';
+import { GameState } from '$lib/game/state/game_state.svelte.js';
+import type { Savable } from '$lib/game/interfaces.js';
 
+/**
+ * The save data necessary to recreate a producer from its ID
+ */
 export interface ProducerSaveData {
 	count: number;
 	multiplier: number;
 }
 
+/**
+ * A class for a game element that produces objects.
+ */
 export class Producer implements Savable<ProducerSaveData> {
 	id: string;
 	name: string;

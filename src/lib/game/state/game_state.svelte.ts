@@ -1,6 +1,6 @@
-import { Producer } from '$lib/game/producer.svelte.js';
+import { Producer, type ProducerSaveData } from '$lib/game/state/producers/producer.svelte.js';
 
-/// The shape of the Global Save File
+/// The shape of the global save file
 interface GlobalSaveData {
 	objects: number;
 	producers: { id: string; data: ProducerSaveData }[];

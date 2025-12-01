@@ -1,19 +1,14 @@
-import type { Tickable } from './tickable/tickable_interface.ts';
+import type { Tickable } from '$lib/game/interfaces.js';
 
 export class GameEngine {
 	// The max value in which a frame delta can be to ensure that
 	// nothing crazy happens.
 	private static readonly MAX_DELTA_TIME = 1.0;
 
-	// NOTE: isRunning is used as opposed to a Singleton pattern
-	// because we don't want to have a lifelong-instance eating
-	// up browser resources. Full control over the engine life
-	// is necessary for that, which means no Singleton.
-	private static isRunning = false;
-
 	// INFO: ------------------------
 	//         instance state
 	// ------------------------------
+	private isRunning = false;
 	private animationFrameId: number | null = null;
 	private systems: Tickable[] = [];
 	private lastTime: number = 0;
@@ -29,15 +24,17 @@ export class GameEngine {
 	/**
 	 * Add a tickable system to the loop.
 	 */
-	addSystem(system: Tickable) {
+	addSystem(system: Tickable): GameEngine {
 		this.systems.push(system);
+		return this;
 	}
 
 	/**
 	 * Remove a specific system from the event loop.
 	 */
-	removeSystem(system: Tickable) {
+	removeSystem(system: Tickable): GameEngine {
 		this.systems = this.systems.filter((s) => s !== system);
+		return this;
 	}
 
 	// INFO: -----------------------------
@@ -45,15 +42,15 @@ export class GameEngine {
 	// -----------------------------------
 
 	start() {
-		if (GameEngine.isRunning) {
-			console.warn('⚠️ GameEngine ignored start request: An engine is already running.');
+		if (this.isRunning) {
+			console.warn('⚠️ GameEngine ignored start request: This engine is already running.');
 			return;
 		}
 
 		// if animation frame exists, the previous loop wasn't destroyed properly
 		if (this.animationFrameId) return;
 
-		GameEngine.isRunning = true;
+		this.isRunning = true;
 		this.lastTime = performance.now();
 		console.log('▶️ Game Engine Started');
 
@@ -61,7 +58,7 @@ export class GameEngine {
 	}
 
 	stop() {
-		GameEngine.isRunning = false;
+		this.isRunning = false;
 
 		if (this.animationFrameId) {
 			cancelAnimationFrame(this.animationFrameId);
@@ -75,18 +72,19 @@ export class GameEngine {
 	// --------------------------
 
 	private loop() {
-		if (!GameEngine.isRunning) return;
+		if (!this.isRunning) return;
 
 		// calculate delta time
 		const currentTime = performance.now();
 		let dt = (currentTime - this.lastTime) / 1000;
-		if (dt > this.MAX_DT) {
-			dt = this.MAX_DT;
+
+		if (dt > GameEngine.MAX_DELTA_TIME) {
+			dt = GameEngine.MAX_DELTA_TIME;
 		}
 
 		this.lastTime = currentTime;
 
-		// run tick ands schedule the next frame
+		// run tick and schedule the next frame
 		this.tick(dt);
 		this.animationFrameId = requestAnimationFrame(() => this.loop());
 	}
