@@ -4,6 +4,7 @@ import { ProductionMultiplierEffect } from '$lib/game/models/effects/definitions
 import type { ScreenObject } from '$lib/game/models/screen_objects/screen_object';
 import { INITIAL_PRODUCERS, INITIAL_UPGRADES } from '../data/index.ts';
 import type { Upgrade, UpgradeSaveData } from '$lib/game/models/upgrades/upgrade.svelte';
+import { PlayerActionManager } from './player_action_manager.ts';
 
 /// The shape of the global save file
 interface GlobalSaveData {
@@ -20,6 +21,9 @@ export class GameState {
 	private static readonly DEFAULT_MANUAL_CLICK_POWER = 1;
 	private static readonly DEFAULT_OBJECTS_COUNT = 0;
 
+	// composed player action manager for convenience access
+	public readonly actions: PlayerActionManager;
+
 	// INFO: ------------------------
 	//        singleton setup
 	// ------------------------------
@@ -27,6 +31,7 @@ export class GameState {
 	private static instance: GameState;
 
 	private constructor() {
+		this.actions = new PlayerActionManager(this);
 		console.log('GameState initialized!');
 	}
 

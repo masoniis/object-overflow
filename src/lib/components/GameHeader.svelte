@@ -1,8 +1,12 @@
 <script lang="ts">
 	import { GameState } from '$lib/game/core/game_state.svelte';
+	import getClickCoordinates from '$lib/game/utils/click_coordinates';
 	import Settings from './Settings.svelte';
 
-	let { isSettingsModalOpen = $bindable() } = $props<{ isSettingsModalOpen: boolean }>();
+	let { isSettingsModalOpen = $bindable(), gameContainer } = $props<{
+		isSettingsModalOpen: boolean;
+		gameContainer: HTMLElement;
+	}>();
 
 	const gameState = GameState.getInstance();
 </script>
@@ -21,7 +25,12 @@
 	</div>
 
 	<div>
-		<button onclick={() => gameState.modifyResource('object', gameState.manualClickPower)}>
+		<button
+			onclick={(e) => {
+				const coords = gameContainer ? getClickCoordinates(e, gameContainer) : { x: 50, y: 50 };
+				gameState.actions.clickMainObjective(coords.x, coords.y);
+			}}
+		>
 			Get +{gameState.manualClickPower} object
 		</button>
 

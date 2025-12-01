@@ -11,6 +11,7 @@
 	//         ui shared state
 	// -------------------------------
 	let isSettingsModalOpen = $state(false);
+	let gameContainer = $state<HTMLElement>();
 
 	// INFO: --------------------
 	//         setup game
@@ -22,10 +23,10 @@
 	});
 </script>
 
-<div class="relative overflow-clip sm:px-4 px-2">
+<div class="relative overflow-clip sm:px-4 px-2" bind:this={gameContainer}>
 	<ClickableObjectLayer />
 
-	<GameHeader bind:isSettingsModalOpen />
+	<GameHeader bind:isSettingsModalOpen {gameContainer} />
 
 	<div class="space-y-2 sm:space-y-4 pt-4">
 		<ActiveEffects />
@@ -35,4 +36,3 @@
 		<ProducerList />
 	</div>
 </div>
-
