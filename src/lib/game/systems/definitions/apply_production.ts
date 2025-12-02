@@ -1,4 +1,5 @@
 import { GameSystem } from '../abstract_gamesystem.ts';
+import { ProductionMultiplierEffect } from '$lib/game/models/effects/definitions/production_multiplier';
 
 export class ApplyProductionSystem extends GameSystem {
 	tick(dt: number) {
@@ -16,7 +17,9 @@ export class ApplyProductionSystem extends GameSystem {
 		// calc multiplier
 		let multiplier = 1;
 		for (const effect of effects) {
-			multiplier *= effect.productionMultiplier ?? 1;
+			if (effect instanceof ProductionMultiplierEffect) {
+				multiplier *= effect.multiplier;
+			}
 		}
 
 		// apply multipliers

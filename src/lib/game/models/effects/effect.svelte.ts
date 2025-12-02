@@ -5,30 +5,17 @@ import type { GameState } from '$lib/game/core/game_state.svelte';
  * (eg boosts, "golden object," etc)
  */
 export abstract class Effect {
-	abstract id: string;
-	abstract name: string;
-	abstract description: string;
-
-	/**
-	 * How long the effect lasts, in milliseconds.
-	 * If null, the effect is permanent until removed.
-	 */
-	abstract duration: number | null;
-
 	/**
 	 * The timestamp when the effect was applied.
 	 */
 	appliedAt = $state(Date.now());
 
-	/**
-	 * The production multiplier this effect provides.
-	 * Defaults to 1 (no change).
-	 */
-	get productionMultiplier(): number {
-		return 1;
-	}
-
-	constructor() {
+	constructor(
+		public id: string,
+		public name: string,
+		public description: string,
+		public duration: number | null // null is infinite
+	) {
 		this.appliedAt = Date.now();
 	}
 

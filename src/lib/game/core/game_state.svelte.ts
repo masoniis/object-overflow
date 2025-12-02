@@ -1,5 +1,6 @@
 import { Producer, type ProducerSaveData } from '$lib/game/models/producers/producer.svelte';
 import type { Effect } from '$lib/game/models/effects/effect.svelte';
+import { ProductionMultiplierEffect } from '$lib/game/models/effects/definitions/production_multiplier';
 import type { ScreenObject } from '$lib/game/models/screen_objects/screen_object';
 
 /// The shape of the global save file
@@ -96,7 +97,12 @@ export class GameState {
 	 * The total production multiplier from effects
 	 */
 	get productionMultiplier(): number {
-		return this._effects.reduce((acc, effect) => acc * effect.productionMultiplier, 1);
+		return this._effects.reduce((acc, effect) => {
+			if (effect instanceof ProductionMultiplierEffect) {
+				return acc * effect.multiplier;
+			}
+			return acc;
+		}, 1);
 	}
 
 	// INFO: -----------------------------------

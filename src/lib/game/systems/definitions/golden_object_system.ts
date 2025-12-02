@@ -1,8 +1,7 @@
 import { GameState } from '$lib/game/core/game_state.svelte';
 import { GameSystem } from '../abstract_gamesystem';
-import { ProductionBoostEffect } from '../../models/effects/definitions/production_boost';
-import { FlatBonusEffect } from '../../models/effects/definitions/flat_bonus';
 import { GoldenObject } from '../../models/screen_objects/golden_object';
+import { createRandomEffect } from '../../models/effects/effect_factory';
 
 export class GoldenObjectSystem extends GameSystem {
 	private timeToNextSpawn = this.getRandomSpawnTime();
@@ -17,20 +16,17 @@ export class GoldenObjectSystem extends GameSystem {
 	}
 
 	private getRandomSpawnTime(): number {
-		return Math.random() * 60000 + 60000; // 60 to 60 seconds
+		return Math.random() * 30000 + 60000; // 30 to 90 seconds
 	}
 
 	private spawnGoldenObject() {
 		console.log('Golden object spawned!');
 
-		// random effect
-		const effects = [ProductionBoostEffect, FlatBonusEffect];
-		const EffectClass = effects[Math.floor(Math.random() * effects.length)];
-
 		// collection logic
 		const onCollect = (game: GameState) => {
-			console.log('Applying random effect:', EffectClass.name);
-			game.addEffect(new EffectClass());
+			const effect = createRandomEffect();
+			console.log('Applying random effect:', effect.name);
+			game.addEffect(effect);
 		};
 
 		// instantiate and add
