@@ -1,20 +1,13 @@
 <script lang="ts">
-	import { GameState } from '$lib/game/core/game_state.svelte';
 	import type { GoldenObject } from '$lib/game/models/screen_objects/golden_object';
 
 	let { onClick, object } = $props<{ onClick: () => void; object: GoldenObject }>();
-
-	const gameState = GameState.getInstance();
 
 	let top = $derived(object.y);
 	let left = $derived(object.x);
 </script>
 
-<button
-	class="golden-object"
-	style="top: {top}%; left: {left}%"
-	onclick={onClick}
->
+<button class="golden-object" style="top: {top}%; left: {left}%" onclick={onClick}>
 	Golden Object
 </button>
 
