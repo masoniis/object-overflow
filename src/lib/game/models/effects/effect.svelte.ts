@@ -47,13 +47,6 @@ export abstract class Effect {
 	onRemove(_gameState: GameState): void {}
 
 	/**
-	 * A function that is called every game tick.
-	 * @param gameState The game state to modify.
-	 * @param delta The time since the last tick, in milliseconds.
-	 */
-	tick(_gameState: GameState, _delta: number): void {}
-
-	/**
 	 * Checks if the effect has expired.
 	 */
 	get isExpired(): boolean {

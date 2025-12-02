@@ -1,7 +1,6 @@
 import { Producer, type ProducerSaveData } from '$lib/game/models/producers/producer.svelte';
 import type { Effect } from '$lib/game/models/effects/effect.svelte';
 import type { ScreenObject } from '$lib/game/models/screen_objects/screen_object';
-import { GoldenObject } from '$lib/game/models/screen_objects/golden_object';
 
 /// The shape of the global save file
 interface GlobalSaveData {

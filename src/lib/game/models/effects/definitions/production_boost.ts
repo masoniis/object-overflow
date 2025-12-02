@@ -1,4 +1,3 @@
-import type { GameState } from '$lib/game/core/game_state.svelte';
 import { Effect } from '../effect.svelte';
 
 export class ProductionBoostEffect extends Effect {
