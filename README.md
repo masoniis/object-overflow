@@ -16,9 +16,9 @@ The terminal will give you information regarding the port that the website can b
 
 ## Design patterns
 
-### 1. **Singleton pattern** for `GameState`
+### 1. **Facade pattern** for `GameState`
 
-The entire state of the game for uses the singleton pattern to ensure that there is only one global state that represents progress, currency, and resources. This is used for a variety of things, such as UI components, that often read the singleton state to determine their screen values.
+The GameState class implements the Facade pattern to provide a simplified, unified interface to a complex subsystem of domain managers (e.g., PlayerStatsManager, ProducerManager, UpgradeManager). Instead of UI components or game systems interacting directly with many internal data structures, they communicate with the GameState facade. This decoupling allows the facade to orchestrate complex operations while keeping the calling code clean and unaware of the underlying structural complexity.
 
 ### 2. **Strategy pattern** on `Tickable`
 
@@ -26,7 +26,7 @@ The game engine manages ticks which are simply an interval of time since the pre
 
 ### 3. **Factory method pattern** on `Effect`s
 
-Effects and construction is managed by the random factory.
+Effects and construction is managed by the random effect factory.
 
 ### 4. **Template Method pattern** on `Upgrade`s
 

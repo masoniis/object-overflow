@@ -1,38 +1,30 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { createStandardGame } from '$lib/game/core/setup_game';
 	import ClickableObjectLayer from '$lib/components/clickable_objects/ClickableObjectLayer.svelte';
 	import Upgrades from '$lib/components/Upgrades.svelte';
 	import GameHeader from '$lib/components/GameHeader.svelte';
 	import ActiveEffects from '$lib/components/ActiveEffects.svelte';
 	import ProducerList from '$lib/components/ProducerList.svelte';
+	import GameStateProvider from '$lib/components/GameStateProvider.svelte';
 
 	// INFO: -------------------------
-	//         ui shared state
+	//         shared ui state
 	// -------------------------------
 	let isSettingsModalOpen = $state(false);
 	let gameContainer = $state<HTMLElement>();
-
-	// INFO: --------------------
-	//         setup game
-	// --------------------------
-	onMount(() => {
-		const engine = createStandardGame();
-		engine.start();
-		return () => engine.stop();
-	});
 </script>
 
-<div class="relative overflow-clip sm:px-4 px-2" bind:this={gameContainer}>
-	<ClickableObjectLayer />
+<GameStateProvider>
+	<div class="relative overflow-clip sm:px-4 px-2" bind:this={gameContainer}>
+		<ClickableObjectLayer />
 
-	<GameHeader bind:isSettingsModalOpen {gameContainer} />
+		<GameHeader bind:isSettingsModalOpen {gameContainer} />
 
-	<div class="space-y-2 sm:space-y-4 pt-4">
-		<ActiveEffects />
+		<div class="space-y-2 sm:space-y-4 pt-4">
+			<ActiveEffects />
 
-		<Upgrades />
+			<Upgrades />
 
-		<ProducerList />
+			<ProducerList />
+		</div>
 	</div>
-</div>
+</GameStateProvider>

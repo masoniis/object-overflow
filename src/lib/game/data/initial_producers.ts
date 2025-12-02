@@ -1,74 +1,90 @@
 import { Producer } from '$lib/game/models/producers/producer.svelte';
+import { ResourceIds } from '../core/state/constants';
+
+export enum ProducerIds {
+	BasicObject = 'basic_object',
+	EpicObject = 'epic_object',
+	SuperEpicObject = 'super_epic_object',
+
+	BasicFactory = 'basic_factory',
+	AdvancedFactory = 'advanced_factory',
+	SuperAdvancedFactory = 'super_advanced_factory',
+	UltraAdvancedFactory = 'ultra_advanced_factory',
+	ExtremeAdvancedFactory = 'extreme_advanced_factory',
+
+	SelfFactory = 'self_factory',
+	UltimateFactory = 'ultimate_object'
+}
 
 export const INITIAL_PRODUCERS = [
 	new Producer({
-		id: 'basic_object',
+		id: ProducerIds.BasicObject,
 		name: 'Basic Object',
 		cost: 10,
 		production: 1,
-		outputResourceId: 'object'
+		outputResourceId: ResourceIds.Currency
 	}),
 	new Producer({
-		id: 'epic_object',
+		id: ProducerIds.EpicObject,
 		name: 'Epic Object',
 		cost: 100,
 		production: 7,
-		outputResourceId: 'object'
+		outputResourceId: ResourceIds.Currency
 	}),
 	new Producer({
-		id: 'super_epic_object',
+		id: ProducerIds.SuperEpicObject,
 		name: 'Super Epic Object',
 		cost: 1000,
 		production: 20,
-		outputResourceId: 'object'
+		outputResourceId: ResourceIds.Currency
 	}),
 	new Producer({
-		id: 'basic_factory',
+		id: ProducerIds.BasicFactory,
 		name: 'Basic Object Factory',
 		cost: 2000,
 		production: 0.1,
-		outputResourceId: 'basic_object'
+		outputResourceId: ProducerIds.BasicObject
 	}),
 	new Producer({
-		id: 'advanced_factory',
+		id: ProducerIds.AdvancedFactory,
 		name: 'Object Factory Factory',
 		cost: 5000,
 		production: 0.1,
-		outputResourceId: 'basic_factory'
+		outputResourceId: ProducerIds.BasicFactory
 	}),
 	new Producer({
-		id: 'super_advanced_factory',
+		id: ProducerIds.SuperAdvancedFactory,
 		name: 'Object Factory Factory Factory',
 		cost: 10000,
 		production: 0.1,
-		outputResourceId: 'advanced_factory'
+		outputResourceId: ProducerIds.AdvancedFactory
 	}),
 	new Producer({
-		id: 'ultra_advanced_factory',
+		id: ProducerIds.UltraAdvancedFactory,
 		name: 'Object Factory Factory Factory Factory',
 		cost: 20000,
 		production: 0.1,
-		outputResourceId: 'super_advanced_factory'
+		outputResourceId: ProducerIds.SuperAdvancedFactory
 	}),
 	new Producer({
-		id: 'extreme_advanced_factory',
+		id: ProducerIds.ExtremeAdvancedFactory,
 		name: 'Object Factory Factory Factory Factory Factory',
 		cost: 100000,
 		production: 0.5,
-		outputResourceId: 'ultra_advanced_factory'
+		outputResourceId: ProducerIds.UltraAdvancedFactory
 	}),
 	new Producer({
-		id: 'self_factory',
+		id: ProducerIds.SelfFactory,
 		name: 'Self Factory',
 		cost: 20000000000000,
 		production: 0.1,
-		outputResourceId: 'self_factory'
+		outputResourceId: ProducerIds.SelfFactory
 	}),
 	new Producer({
-		id: 'ultimate_object',
+		id: ProducerIds.UltimateFactory,
 		name: 'Ultimate Factory',
 		cost: Infinity,
 		production: 1234,
-		outputResourceId: 'ultra_advanced_factory'
+		outputResourceId: ProducerIds.UltraAdvancedFactory
 	})
 ];

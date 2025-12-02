@@ -1,5 +1,5 @@
 import { ThrottledSystem } from '../throttled_system';
-import type { GameState } from '$lib/game/core/game_state.svelte';
+import type { GameState } from '$lib/game/core/state/game_state.svelte';
 
 export class ScreenObjectLifecycleSystem extends ThrottledSystem {
 	constructor(state: GameState) {
@@ -10,13 +10,13 @@ export class ScreenObjectLifecycleSystem extends ThrottledSystem {
 	protected runThrottled() {
 		const objects = this.state.screenObjects;
 
-		// Iterate backwards for safe removal
-		for (let i = objects.length - 1; i >= 0; i--) {
-			const obj = objects[i];
+		// iterate backwards for safe removal
+		for (let i = objects.list.length - 1; i >= 0; i--) {
+			const obj = objects.list[i];
 
 			if (obj.isExpired) {
 				obj.onExpire(this.state);
-				this.state.removeScreenObject(obj);
+				this.state.screenObjects.remove(obj);
 			}
 		}
 	}

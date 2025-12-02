@@ -1,13 +1,13 @@
 <script lang="ts">
-	import { GameState } from '$lib/game/core/game_state.svelte';
 	import GoldenObjectCircle from './GoldenObjectCircle.svelte';
 	import { GoldenObject } from '$lib/game/models/screen_objects/interactive/golden_object';
 	import NefariousObjectCircle from './NefariousObjectCircle.svelte';
 	import { NefariousObject } from '$lib/game/models/screen_objects/interactive/nefarious_object';
-	import { FloatingText } from '$lib/game/models/screen_objects/floating_text/floating_text';
+	import { FloatingText } from '$lib/game/models/screen_objects/visual/floating_text';
 	import FloatingTextElement from './FloatingTextElement.svelte';
+	import { getGameState } from '$lib/game/ui_bridge/game_context';
 
-	const gameState = GameState.getInstance();
+	const gameState = getGameState();
 
 	const goldenObjects = $derived(
 		gameState.screenObjects.filter((obj): obj is GoldenObject => obj instanceof GoldenObject)
@@ -24,22 +24,22 @@
 
 {#each goldenObjects as goldenObject (goldenObject.id)}
 	<GoldenObjectCircle
-		object={goldenObject}
+		object={goldenObject as GoldenObject}
 		onClick={() => {
-			goldenObject.interact(gameState);
+			(goldenObject as GoldenObject).interact(gameState);
 		}}
 	/>
 {/each}
 
 {#each nefariousObjects as nefariousObject (nefariousObject.id)}
 	<NefariousObjectCircle
-		object={nefariousObject}
+		object={nefariousObject as NefariousObject}
 		onClick={() => {
-			nefariousObject.interact(gameState);
+			(nefariousObject as NefariousObject).interact(gameState);
 		}}
 	/>
 {/each}
 
 {#each floatingTexts as textObj (textObj.id)}
-	<FloatingTextElement object={textObj} />
+	<FloatingTextElement object={textObj as FloatingText} />
 {/each}

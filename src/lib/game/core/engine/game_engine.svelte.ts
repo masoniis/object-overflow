@@ -1,4 +1,4 @@
-import type { Tickable } from '$lib/game/core/interfaces';
+import type { Tickable } from '$lib/game/core/engine/tickable';
 
 export class GameEngine {
 	// The max value in which a tick frame delta can be to ensure that
@@ -41,6 +41,9 @@ export class GameEngine {
 	//         public loop control
 	// -----------------------------------
 
+	/**
+	 * Starts up the engine, and does nothing if the engine is already running.
+	 */
 	start() {
 		if (this.isRunning) {
 			console.warn('⚠️ GameEngine ignored start request: This engine is already running.');
@@ -57,6 +60,9 @@ export class GameEngine {
 		this.loop();
 	}
 
+	/**
+	 * Stops the engine from running.
+	 */
 	stop() {
 		this.isRunning = false;
 
@@ -71,6 +77,9 @@ export class GameEngine {
 	//         loop logic
 	// --------------------------
 
+	/**
+	 * Loops infinitely, ticking all systems.
+	 */
 	private loop() {
 		if (!this.isRunning) return;
 
@@ -89,7 +98,9 @@ export class GameEngine {
 		this.animationFrameId = requestAnimationFrame(() => this.loop());
 	}
 
-	// Iterate all systems and tick them.
+	/**
+	 * Ticks all systems registered to the game engine.
+	 */
 	private tick_all_systems(delta_seconds: number) {
 		for (const system of this.systems) {
 			system.tick(delta_seconds);

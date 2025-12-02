@@ -1,5 +1,6 @@
 import { System } from '../system.ts';
 import { ProductionMultiplierEffect } from '$lib/game/models/effects/definitions/production_multiplier';
+import { ResourceIds } from '$lib/game/core/state/constants';
 
 export class ApplyProductionSystem extends System {
 	tick(delta_seconds: number) {
@@ -8,7 +9,7 @@ export class ApplyProductionSystem extends System {
 		// get production
 		let rate = 0;
 		for (const p of producers) {
-			rate += p.totalProduction(this.state);
+			rate += p.totalProduction(this.state.effects.getGlobalProductionMultiplier());
 		}
 
 		// get all effects
@@ -26,6 +27,6 @@ export class ApplyProductionSystem extends System {
 		rate *= multiplier;
 
 		// update global state
-		this.state.modifyResource('object', rate * delta_seconds);
+		this.state.modifyResource(ResourceIds.Currency, rate * delta_seconds);
 	}
 }

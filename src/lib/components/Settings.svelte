@@ -1,10 +1,17 @@
 <script lang="ts">
 	import Modal from '$lib/components/reusable/Modal.svelte';
-	import { GameState } from '$lib/game/core/game_state.svelte';
+	import { GameState } from '$lib/game/core/state/game_state.svelte';
+	import { getGameState } from '$lib/game/ui_bridge/game_context';
+	import { saveMeta, refreshSaveMeta } from '$lib/game/ui_bridge/save_metadata.svelte';
+
+	const gameState: GameState = getGameState();
 
 	let { isOpen = $bindable() }: { isOpen: boolean } = $props();
-	const gameState = GameState.getInstance();
-	let hasSaveData = $state(gameState.hasSaveData());
+	$effect(() => {
+		if (isOpen) {
+			refreshSaveMeta();
+		}
+	});
 </script>
 
 <Modal bind:isOpen title="Settings">
@@ -12,14 +19,16 @@
 		<button
 			class="bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold py-2.5 px-4 rounded-lg shadow-sm transition-all flex items-center justify-center gap-2"
 			onclick={() => {
-				gameState.save();
-				hasSaveData = true;
+				gameState.saves.save();
+				// The SaveManager hook should trigger this automatically,
+				// but calling it here ensures the UI updates instantly.
+				refreshSaveMeta();
 			}}
 		>
 			<span>💾</span> Save Progress
 		</button>
 
-		{#if gameState.savedObjectCount !== null}
+		{#if saveMeta.hasSave}
 			<div class="bg-gray-50 border border-gray-200 rounded-md p-3 text-sm">
 				<div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">
 					Current Save File
@@ -27,8 +36,11 @@
 				<div class="flex justify-between items-center text-gray-700">
 					<span>Objects stored:</span>
 					<span class="font-mono font-bold text-blue-600 text-lg">
-						{Math.floor(gameState.savedObjectCount).toLocaleString()}
+						{Math.floor(saveMeta.previewScore).toLocaleString()}
 					</span>
+				</div>
+				<div class="text-[10px] text-gray-400 text-right mt-1">
+					Last saved: {new Date(saveMeta.timestamp).toLocaleTimeString()}
 				</div>
 			</div>
 		{/if}
@@ -36,11 +48,24 @@
 		<button
 			class="bg-green-600 hover:bg-green-700 disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed text-white font-bold py-2.5 px-4 rounded-lg shadow-sm transition-all"
 			onclick={() => {
-				gameState.load();
+				gameState.saves.load(gameState);
+				isOpen = false;
 			}}
-			disabled={!hasSaveData}
+			disabled={!saveMeta.hasSave}
 		>
 			Load Game
+		</button>
+
+		<button
+			class="bg-red-50 hover:bg-red-100 text-red-600 font-bold py-2 rounded-lg text-sm transition-colors border border-red-200"
+			onclick={() => {
+				if (confirm('Are you sure you want to wipe your save? This cannot be undone.')) {
+					gameState.saves.wipeSave();
+					refreshSaveMeta();
+				}
+			}}
+		>
+			Wipe Save
 		</button>
 
 		<hr class="border-gray-100 my-1" />

@@ -1,7 +1,7 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, vi, beforeEach, afterEach, type Mock } from 'vitest';
 import { GameEngine } from './game_engine.svelte';
-import type { Tickable } from '$lib/game/core/interfaces';
+import type { Tickable } from '$lib/game/core/engine/tickable';
 
 interface MockTickable extends Tickable {
 	tick: Mock<(dt: number) => void>;

@@ -1,5 +1,5 @@
 import { ScreenObject } from '../screen_object';
-import type { GameState } from '$lib/game/core/game_state.svelte';
+import type { GameState } from '$lib/game/core/state/game_state.svelte';
 
 // A type of screen object that can be interacted with by the user
 // to trigger certain effects, after which it disappears.
@@ -16,6 +16,6 @@ export abstract class InteractiveObject extends ScreenObject {
 
 		this.hasInteracted = true;
 		this.onInteractCallback(game);
-		game.removeScreenObject(this);
+		game.screenObjects.remove(this);
 	}
 }

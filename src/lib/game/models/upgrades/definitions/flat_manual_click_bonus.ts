@@ -1,4 +1,4 @@
-import type { GameState } from '$lib/game/core/game_state.svelte';
+import type { GameState } from '$lib/game/core/state/game_state.svelte';
 import { Upgrade } from '../upgrade.svelte';
 
 export class FlatManualClickBonusUpgrade extends Upgrade {
@@ -10,11 +10,11 @@ export class FlatManualClickBonusUpgrade extends Upgrade {
 	}
 
 	onPurchase(gameState: GameState): void {
-		gameState.manualClickPower += this.bonus;
+		gameState.playerStats.addClickPower(this.bonus);
 	}
 
 	onLoad(gameState: GameState): void {
-		gameState.manualClickPower += this.bonus;
+		gameState.playerStats.addClickPower(this.bonus);
 	}
 
 	requirement(_gameState: GameState): boolean {

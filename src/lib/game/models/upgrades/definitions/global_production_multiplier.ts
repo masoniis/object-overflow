@@ -1,4 +1,4 @@
-import { GameState } from '$lib/game/core/game_state.svelte';
+import { GameState } from '$lib/game/core/state/game_state.svelte';
 import { ProductionMultiplierEffect } from '$lib/game/models/effects/definitions/production_multiplier';
 import { Upgrade } from '../upgrade.svelte';
 

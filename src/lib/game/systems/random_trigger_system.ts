@@ -1,5 +1,5 @@
 import { System } from './system';
-import type { GameState } from '$lib/game/core/game_state.svelte';
+import type { GameState } from '$lib/game/core/state/game_state.svelte';
 
 export abstract class RandomTriggerSystem extends System {
 	private timeToNextTrigger: number;

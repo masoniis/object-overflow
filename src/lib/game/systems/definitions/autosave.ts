@@ -1,5 +1,5 @@
 import { System } from '../system';
-import type { GameState } from '$lib/game/core/game_state.svelte';
+import type { GameState } from '$lib/game/core/state/game_state.svelte';
 
 export class AutosaveSystem extends System {
 	private time_since_last_save = 0;
@@ -18,7 +18,7 @@ export class AutosaveSystem extends System {
 
 		if (this.time_since_last_save >= this.save_interval) {
 			console.log('💾 Performing autosave');
-			this.state.save();
+			this.state.saves.save();
 			this.time_since_last_save = 0;
 		}
 	}

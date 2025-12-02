@@ -1,6 +1,7 @@
 <script lang="ts">
-	import { GameState } from '$lib/game/core/game_state.svelte';
-	const gameState = GameState.getInstance();
+	import { getGameState } from '$lib/game/ui_bridge/game_context';
+
+	const gameState = getGameState();
 </script>
 
 <div>
@@ -11,7 +12,7 @@
 				<h3 class="flex flex-row justify-between pb-1.5">
 					<div class="font-bold content-center">{producer.name}</div>
 					<button
-						disabled={gameState.objects < producer.currentCost}
+						disabled={gameState.playerStats.objects < producer.currentCost}
 						onclick={() => producer.buy(gameState)}
 					>
 						Buy (💰{producer.currentCost})
@@ -20,7 +21,9 @@
 				<hr />
 				<p>Owned: {producer.count}</p>
 				<p>
-					Production: {producer.totalProduction(gameState).toFixed(2)}/sec of
+					Production: {producer
+						.totalProduction(gameState.effects.getGlobalProductionMultiplier())
+						.toFixed(2)}/sec of
 					<em>{producer.outputResourceId}</em>
 				</p>
 			</div>

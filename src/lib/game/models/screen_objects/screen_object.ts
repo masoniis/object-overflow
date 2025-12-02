@@ -1,11 +1,11 @@
-import type { GameState } from '$lib/game/core/game_state.svelte';
+import type { GameState } from '$lib/game/core/state/game_state.svelte';
 
 export abstract class ScreenObject {
 	id = crypto.randomUUID();
 	x_pos: number;
 	y_pos: number;
 
-	// Lifecycle logic
+	// lifecycle logic
 	spawnedAt: number = Date.now();
 	abstract duration: number;
 

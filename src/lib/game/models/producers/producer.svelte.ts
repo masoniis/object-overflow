@@ -1,11 +1,11 @@
-import type { GameState } from '$lib/game/core/game_state.svelte';
-import type { Savable } from '$lib/game/core/interfaces';
+import { ResourceIds } from '$lib/game/core/state/constants';
+import type { GameState } from '$lib/game/core/state/game_state.svelte';
 
 export interface ProducerSaveData {
 	count: number;
 }
 
-interface ProducerDefinition {
+export interface ProducerDefinition {
 	id: string;
 	name: string;
 	cost: number;
@@ -14,26 +14,37 @@ interface ProducerDefinition {
 	costResourceId?: string;
 }
 
-export class Producer implements Savable<ProducerSaveData> {
-	id: string;
-	name: string;
+export class Producer {
+	// INFO: ----------------
+	//         config
+	// ----------------------
 
-	outputResourceId: string;
-	costResourceId: string;
+	// identity
+	public readonly id: string;
+	public readonly name: string;
 
-	baseCost: number;
-	baseProduction: number;
+	// economy links
+	public readonly outputResourceId: string;
+	public readonly costResourceId: string;
 
-	count = $state(0);
-	multiplier = $state(1);
+	// balancing
+	public readonly baseCost: number;
+	public readonly baseProduction: number;
+
+	// INFO: ---------------
+	//         state
+	// ---------------------
+
+	public count = $state(0);
+	public multiplier = $state(1);
 
 	constructor({
 		id,
 		name,
 		cost,
 		production,
-		outputResourceId = 'object',
-		costResourceId = 'object'
+		outputResourceId = ResourceIds.Currency,
+		costResourceId = ResourceIds.Currency
 	}: ProducerDefinition) {
 		this.id = id;
 		this.name = name;
@@ -43,15 +54,29 @@ export class Producer implements Savable<ProducerSaveData> {
 		this.costResourceId = costResourceId;
 	}
 
-	totalProduction(gameState: GameState) {
-		return this.baseProduction * this.count * this.multiplier * gameState.productionMultiplier;
-	}
+	// INFO: -----------------
+	//         getters
+	// -----------------------
 
-	get currentCost() {
+	/**
+	 * Calculates the current purchase price based on exponential scaling.
+	 */
+	get currentCost(): number {
 		return Math.floor(this.baseCost * Math.pow(1.15, this.count));
 	}
 
-	buy(gameState: GameState) {
+	/**
+	 * Calculates production per tick/second for this specific producer type.
+	 */
+	public totalProduction(productionMultiplier: number): number {
+		return this.baseProduction * this.count * this.multiplier * productionMultiplier;
+	}
+
+	// INFO: -----------------
+	//         actions
+	// -----------------------
+
+	public buy(gameState: GameState): void {
 		const success = gameState.tryTransaction(this.costResourceId, this.currentCost);
 
 		if (success) {
@@ -59,11 +84,15 @@ export class Producer implements Savable<ProducerSaveData> {
 		}
 	}
 
-	save(): ProducerSaveData {
+	// INFO: ----------------------
+	//         saving logic
+	// ----------------------------
+
+	public save(): ProducerSaveData {
 		return { count: this.count };
 	}
 
-	load(data: ProducerSaveData) {
+	public load(data: ProducerSaveData): void {
 		this.count = data.count ?? 0;
 	}
 }

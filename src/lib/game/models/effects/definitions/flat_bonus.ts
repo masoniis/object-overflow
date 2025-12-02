@@ -1,4 +1,5 @@
-import { GameState } from '$lib/game/core/game_state.svelte';
+import { ResourceIds } from '$lib/game/core/state/constants';
+import { GameState } from '$lib/game/core/state/game_state.svelte';
 import { Effect } from '../effect.svelte';
 
 export class FlatBonusEffect extends Effect {
@@ -13,6 +14,6 @@ export class FlatBonusEffect extends Effect {
 	}
 
 	onApply(gameState: GameState): void {
-		gameState.modifyResource('object', this.bonus);
+		gameState.modifyResource(ResourceIds.Currency, this.bonus);
 	}
 }

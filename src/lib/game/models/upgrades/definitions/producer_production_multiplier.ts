@@ -1,5 +1,6 @@
-import type { GameState } from '$lib/game/core/game_state.svelte';
+import type { GameState } from '$lib/game/core/state/game_state.svelte';
 import { Upgrade } from '../upgrade.svelte';
+import { Producer } from '../../producers/producer.svelte';
 
 export class ProducerProductionMultiplierUpgrade extends Upgrade {
 	producerId: string;
@@ -19,7 +20,7 @@ export class ProducerProductionMultiplierUpgrade extends Upgrade {
 	}
 
 	onPurchase(gameState: GameState): void {
-		const producer = gameState.producers.find((p) => p.id === this.producerId);
+		const producer = gameState.producers.find((p: Producer) => p.id === this.producerId);
 		if (producer) {
 			producer.multiplier *= this.multiplier;
 		} else {
@@ -30,7 +31,7 @@ export class ProducerProductionMultiplierUpgrade extends Upgrade {
 	}
 
 	onLoad(gameState: GameState): void {
-		const producer = gameState.producers.find((p) => p.id === this.producerId);
+		const producer = gameState.producers.find((p: Producer) => p.id === this.producerId);
 		if (producer) {
 			producer.multiplier *= this.multiplier;
 		} else {
@@ -41,7 +42,7 @@ export class ProducerProductionMultiplierUpgrade extends Upgrade {
 	}
 
 	requirement(gameState: GameState): boolean {
-		const producer = gameState.producers.find((p) => p.id === this.producerId);
+		const producer = gameState.producers.find((p: Producer) => p.id === this.producerId);
 		return producer ? producer.count > 0 : false;
 	}
 }

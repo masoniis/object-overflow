@@ -1,4 +1,4 @@
-import type { GameState } from '$lib/game/core/game_state.svelte';
+import type { GameState } from '$lib/game/core/state/game_state.svelte';
 
 /**
  * A game element that exists temporarily and changes the way state is modified

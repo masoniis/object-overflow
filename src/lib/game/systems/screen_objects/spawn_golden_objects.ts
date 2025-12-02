@@ -1,7 +1,7 @@
 import { RandomTriggerSystem } from '../random_trigger_system'; // Adjust import path
 import { GoldenObject } from '../../models/screen_objects/interactive/golden_object';
 import { createRandomEffect } from '../../models/effects/effect_factory';
-import type { GameState } from '$lib/game/core/game_state.svelte';
+import type { GameState } from '$lib/game/core/state/game_state.svelte';
 
 export class SpawnGoldenObjectsSystem extends RandomTriggerSystem {
 	constructor(state: GameState) {
@@ -19,6 +19,6 @@ export class SpawnGoldenObjectsSystem extends RandomTriggerSystem {
 		};
 
 		const golden = new GoldenObject(onCollect);
-		this.state.addScreenObject(golden);
+		this.state.screenObjects.add(golden);
 	}
 }

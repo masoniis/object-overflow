@@ -1,4 +1,5 @@
-import type { GameState } from '$lib/game/core/game_state.svelte';
+import { ResourceIds } from '$lib/game/core/state/constants';
+import type { GameState } from '$lib/game/core/state/game_state.svelte';
 
 export interface UpgradeSaveData {
 	isPurchased: boolean;
@@ -42,7 +43,7 @@ export abstract class Upgrade {
 			return false;
 		}
 
-		const success = gameState.tryTransaction('object', this.cost);
+		const success = gameState.tryTransaction(ResourceIds.Currency, this.cost);
 		if (success) {
 			this.isPurchased = true;
 			this.onPurchase(gameState);

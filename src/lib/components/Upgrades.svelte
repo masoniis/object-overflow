@@ -1,6 +1,7 @@
 <script lang="ts">
-	import { GameState } from '$lib/game/core/game_state.svelte';
-	const gameState = GameState.getInstance();
+	import { getGameState } from '$lib/game/ui_bridge/game_context';
+
+	const gameState = getGameState();
 </script>
 
 <div>
@@ -12,7 +13,7 @@
 					<h3 class="flex flex-row justify-between pb-1.5">
 						<div class="font-bold content-center">{upgrade.name}</div>
 						<button
-							disabled={gameState.objects < upgrade.cost}
+							disabled={gameState.playerStats.objects < upgrade.cost}
 							onclick={() => upgrade.purchase(gameState)}
 						>
 							Buy (💰{upgrade.cost})
