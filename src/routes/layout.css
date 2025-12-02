@@ -6,6 +6,12 @@
 	}
 
 	button {
-		@apply hover:cursor-pointer bg-gray-400 dark:bg-gray-700 p-1 rounded-md;
+		/* dark mode props */
+		@apply dark:bg-gray-700;
+		/* light mode props */
+		@apply bg-gray-400;
+		/* general props */
+		@apply hover:cursor-pointer p-1 rounded-md border-1 border-transparent;
+		@apply disabled:cursor-not-allowed disabled:border-red-500;
 	}
 }

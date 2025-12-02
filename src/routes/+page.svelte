@@ -50,20 +50,28 @@
 		/>
 	{/each}
 
-	<h1>Currency: {Math.floor(gameState.objects)}</h1>
+	<div class="flex flex-row justify-between p-2">
+		<h1 class="self-center">
+			You have <span class="font-bold">{Math.floor(gameState.objects)}</span> objects!
+		</h1>
 
-	<button onclick={() => gameState.addObjects(1)}>Add Object</button>
-	<button onclick={manualSave}>Save Game</button>
-	<button onclick={manualLoad} disabled={!hasSaveData}>Load Game</button>
+		<div>
+			<button onclick={() => gameState.addObjects(1)}>Get +1 object</button>
+			<button onclick={manualSave}>Save Game</button>
+			<button onclick={manualLoad} disabled={!hasSaveData}>Load Game</button>
+		</div>
+	</div>
 
 	{#if gameState.effects.length > 0}
-		<hr class="py-2" />
-		<h2>Active Effects:</h2>
-		<ul>
-			{#each gameState.effects as effect}
-				<li>{effect.name}: {effect.description}</li>
-			{/each}
-		</ul>
+		<div class="p-2">
+			<hr class="py-2" />
+			<h2>Active effects:</h2>
+			<ul>
+				{#each gameState.effects as effect}
+					<li>{effect.name}: {effect.description}</li>
+				{/each}
+			</ul>
+		</div>
 	{/if}
 
 	<hr class="py-2" />
