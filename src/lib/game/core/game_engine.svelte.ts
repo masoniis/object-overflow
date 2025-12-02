@@ -1,4 +1,9 @@
-import type { Tickable } from '$lib/game/interfaces.js';
+import type { Tickable } from '$lib/game/core/interfaces';
+import { GameState } from '$lib/game/core/game_state.svelte';
+import { ApplyProductionSystem } from '../systems/definitions/apply_production';
+import { AutosaveSystem } from '../systems/definitions/autosave';
+import { GoldenObjectSystem } from '../systems/definitions/golden_object_system';
+import { ProcessEffectsSystem } from '../systems/definitions/process_effects';
 
 export class GameEngine {
 	// The max value in which a frame delta can be to ensure that
@@ -15,6 +20,12 @@ export class GameEngine {
 
 	constructor() {
 		console.log('‼️ GameEngine instantiated');
+		const state = GameState.getInstance();
+
+		this.addSystem(new ApplyProductionSystem(state));
+		this.addSystem(new AutosaveSystem(state));
+		this.addSystem(new ProcessEffectsSystem(state));
+		this.addSystem(new GoldenObjectSystem(state));
 	}
 
 	// INFO: -----------------------------
@@ -63,7 +74,7 @@ export class GameEngine {
 		if (this.animationFrameId) {
 			cancelAnimationFrame(this.animationFrameId);
 			this.animationFrameId = null;
-			console.log('IU Game Engine Stopped');
+			console.log('⏹️ Game Engine Stopped');
 		}
 	}
 

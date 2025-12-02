@@ -1,5 +1,5 @@
-import { GameState } from '$lib/game/state/game_state.svelte.js';
-import type { Savable } from '$lib/game/interfaces.js';
+import { GameState } from '$lib/game/core/game_state.svelte';
+import type { Savable } from '$lib/game/core/interfaces';
 
 /**
  * The save data necessary to recreate a producer from its ID

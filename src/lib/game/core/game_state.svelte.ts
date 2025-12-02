@@ -1,4 +1,7 @@
-import { Producer, type ProducerSaveData } from '$lib/game/state/producers/producer.svelte.js';
+import { Producer, type ProducerSaveData } from '$lib/game/models/producers/producer.svelte';
+import type { Effect } from '$lib/game/models/effects/effect.svelte';
+import type { ScreenObject } from '$lib/game/models/screen_objects/screen_object';
+import { GoldenObject } from '$lib/game/models/screen_objects/golden_object';
 
 /// The shape of the global save file
 interface GlobalSaveData {
@@ -65,6 +68,57 @@ export class GameState {
 
 	addProducer(producer: Producer) {
 		this._producers.push(producer);
+	}
+
+	// INFO: ------------------------------
+	//          effect management
+	// ------------------------------------
+
+	private _effects: Effect[] = $state([]);
+
+	get effects() {
+		return this._effects;
+	}
+
+	addEffect(effect: Effect) {
+		this._effects.push(effect);
+		effect.onApply(this);
+	}
+
+	removeEffect(effect: Effect) {
+		const index = this._effects.indexOf(effect);
+		if (index > -1) {
+			this._effects.splice(index, 1);
+			effect.onRemove(this);
+		}
+	}
+
+	/**
+	 * The total production multiplier from effects
+	 */
+	get productionMultiplier(): number {
+		return this._effects.reduce((acc, effect) => acc * effect.productionMultiplier, 1);
+	}
+
+	// INFO: -----------------------------------
+	//          screen-object management
+	// -----------------------------------------
+
+	private _screen_objects: ScreenObject[] = $state([]);
+
+	get screenObjects() {
+		return this._screen_objects;
+	}
+
+	addScreenObject(object: ScreenObject) {
+		this._screen_objects.push(object);
+	}
+
+	removeScreenObject(object: ScreenObject) {
+		const index = this._screen_objects.indexOf(object);
+		if (index > -1) {
+			this._screen_objects.splice(index, 1);
+		}
 	}
 
 	// INFO: ------------------------------

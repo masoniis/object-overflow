@@ -1,5 +1,5 @@
-import type { GameState } from '$lib/game/state/game_state.svelte';
-import type { Tickable } from '$lib/game/interfaces.js';
+import type { GameState } from '$lib/game/core/game_state.svelte';
+import type { Tickable } from '$lib/game/core/interfaces';
 
 /// A class for systems that act upon the game state based on the engine event loop.
 export abstract class GameSystem implements Tickable {
