@@ -1,8 +1,9 @@
 import { System } from './system';
 import type { GameState } from '$lib/game/core/state/game_state.svelte';
 
-/// A class for creating GameSystems that run on a throttled interval,
-/// as opposed to running every single frame.
+/**
+ *  A system that runs on a throttled interval as opposed to running every frame.
+ */
 export abstract class ThrottledSystem extends System {
 	private timeAccumulator = 0;
 	private readonly updateInterval: number;
@@ -13,7 +14,7 @@ export abstract class ThrottledSystem extends System {
 	 */
 	constructor(state: GameState, frequencyHz: number) {
 		super(state);
-		// Convert frequency (8 Hz) to interval (0.125 seconds)
+		// convert frequency (8 Hz) to interval (0.125 seconds)
 		this.updateInterval = 1.0 / frequencyHz;
 	}
 

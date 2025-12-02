@@ -1,5 +1,5 @@
-import { Producer } from '$lib/game/models/producers/producer.svelte';
-import { ResourceIds } from '../core/state/constants';
+import { ResourceIds } from '$lib/game/core/state/constants';
+import { Producer } from './producer.svelte';
 
 export enum ProducerIds {
 	BasicObject = 'basic_object',

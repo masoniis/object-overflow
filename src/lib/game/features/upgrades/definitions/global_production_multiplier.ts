@@ -1,5 +1,5 @@
 import { GameState } from '$lib/game/core/state/game_state.svelte';
-import { ProductionMultiplierEffect } from '$lib/game/models/effects/definitions/production_multiplier';
+import { ProductionMultiplierEffect } from '$lib/game/features/effects/definitions/production_multiplier';
 import { Upgrade } from '../upgrade.svelte';
 
 export class GlobalProductionMultiplierUpgrade extends Upgrade {
@@ -10,19 +10,7 @@ export class GlobalProductionMultiplierUpgrade extends Upgrade {
 		this.multiplier = multiplier;
 	}
 
-	onPurchase(gameState: GameState): void {
-		gameState.addEffect(
-			new ProductionMultiplierEffect(
-				'prod-mult-from-' + this.id,
-				this.name,
-				this.description,
-				this.multiplier,
-				null
-			)
-		);
-	}
-
-	onLoad(gameState: GameState): void {
+	applyEffect(gameState: GameState): void {
 		gameState.addEffect(
 			new ProductionMultiplierEffect(
 				'prod-mult-from-' + this.id,

@@ -20,16 +20,10 @@ export abstract class Upgrade {
 	}
 
 	/**
-	 * Apply this upgrade to the game state. Called when the upgrade is purchased.
-	 * @param gameState The game state to apply the upgrade to.
+	 * The core logic of the upgrade.
+	 * This runs immediately upon purchase and whenever the game loads an upgrade.
 	 */
-	abstract onPurchase(gameState: GameState): void;
-
-	/**
-	 * Apply this upgrade to the game state. Called when the game is loaded.
-	 * @param gameState The game state to apply the upgrade to.
-	 */
-	abstract onLoad(gameState: GameState): void;
+	abstract applyEffect(gameState: GameState): void;
 
 	/**
 	 * The requirement to be met for this upgrade to be available.
@@ -46,7 +40,7 @@ export abstract class Upgrade {
 		const success = gameState.tryTransaction(ResourceIds.Currency, this.cost);
 		if (success) {
 			this.isPurchased = true;
-			this.onPurchase(gameState);
+			this.applyEffect(gameState);
 			console.log(`Upgrade ${this.id} purchased.`);
 			return true;
 		}

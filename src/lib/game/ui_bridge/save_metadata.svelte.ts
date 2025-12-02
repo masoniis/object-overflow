@@ -2,7 +2,7 @@ import { SaveManager } from '../core/save/save_manager.svelte';
 import {
 	PlayerStatsManager,
 	type PlayerStatsSaveData
-} from '../models/player/player_stats_manager.svelte';
+} from '../features/player/player_stats_manager.svelte';
 
 /**
  * The shape of the reactive metadata used by the Main Menu.

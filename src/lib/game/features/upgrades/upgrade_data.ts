@@ -1,7 +1,7 @@
-import { FlatManualClickBonusUpgrade } from '$lib/game/models/upgrades/definitions/flat_manual_click_bonus';
-import { GlobalProductionMultiplierUpgrade } from '$lib/game/models/upgrades/definitions/global_production_multiplier';
-import { ProducerProductionMultiplierUpgrade } from '$lib/game/models/upgrades/definitions/producer_production_multiplier';
-import type { Upgrade } from '$lib/game/models/upgrades/upgrade.svelte';
+import { FlatManualClickBonusUpgrade } from '$lib/game/features/upgrades/definitions/flat_manual_click_bonus';
+import { GlobalProductionMultiplierUpgrade } from '$lib/game/features/upgrades/definitions/global_production_multiplier';
+import { ProducerProductionMultiplierUpgrade } from '$lib/game/features/upgrades/definitions/producer_production_multiplier';
+import type { Upgrade } from './upgrade.svelte';
 
 export const INITIAL_UPGRADES: Upgrade[] = [
 	new FlatManualClickBonusUpgrade(

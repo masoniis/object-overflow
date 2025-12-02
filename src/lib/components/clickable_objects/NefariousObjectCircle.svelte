@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { NefariousObject } from '$lib/game/models/screen_objects/interactive/nefarious_object';
+	import type { NefariousObject } from '$lib/game/features/screen_objects/interactive/nefarious_object';
 
 	let { onClick, object } = $props<{ onClick: () => void; object: NefariousObject }>();
 

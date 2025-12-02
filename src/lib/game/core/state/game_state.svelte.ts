@@ -1,11 +1,11 @@
-import { EffectManager } from '$lib/game/models/effects/effect_manager.svelte';
-import { ProducerManager } from '$lib/game/models/producers/producer_manager.svelte';
-import { ScreenObjectManager } from '$lib/game/models/screen_objects/screen_object_manager.svelte';
-import { UpgradeManager } from '$lib/game/models/upgrades/upgrade_manager.svelte';
 import { ResourceIds } from './constants';
-import { PlayerActionController } from '$lib/game/models/player/player_action_controller';
-import { PlayerStatsManager } from '$lib/game/models/player/player_stats_manager.svelte';
+import { PlayerActionController } from '$lib/game/features/player/player_action_controller';
 import { SaveManager } from '../save/save_manager.svelte';
+import { ProducerManager } from '$lib/game/features/production/producer_manager.svelte';
+import { EffectManager } from '$lib/game/features/effects/effect_manager.svelte';
+import { PlayerStatsManager } from '$lib/game/features/player/player_stats_manager.svelte';
+import { UpgradeManager } from '$lib/game/features/upgrades/upgrade_manager.svelte';
+import { ScreenObjectManager } from '$lib/game/features/screen_objects/screen_object_manager.svelte';
 
 /**
  * Configuration object for game state with optional dependencies to inject.

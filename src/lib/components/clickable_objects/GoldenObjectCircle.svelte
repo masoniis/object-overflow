@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { GoldenObject } from '$lib/game/models/screen_objects/interactive/golden_object';
+	import type { GoldenObject } from '$lib/game/features/screen_objects/interactive/golden_object';
 
 	let { onClick, object } = $props<{ onClick: () => void; object: GoldenObject }>();
 

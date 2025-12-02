@@ -1,7 +1,7 @@
-import { INITIAL_UPGRADES } from '$lib/game/data/index';
 import type { Upgrade, UpgradeSaveData } from './upgrade.svelte';
 import type { Savable } from '$lib/game/core/save/savable';
 import type { GameState } from '$lib/game/core/state/game_state.svelte';
+import { INITIAL_UPGRADES } from './upgrade_data';
 
 export type UpgradeManagerSaveData = {
 	id: string;
@@ -74,7 +74,7 @@ export class UpgradeManager implements Savable<UpgradeManagerSaveData, GameState
 				upgrade.load(entry.data);
 
 				if (upgrade.isPurchased) {
-					upgrade.onLoad(context);
+					upgrade.applyEffect(context);
 				}
 			} else {
 				console.warn(`[UpgradeManager] Unknown upgrade ID in save: ${entry.id}`);

@@ -1,4 +1,4 @@
-import { ThrottledSystem } from '../throttled_system';
+import { ThrottledSystem } from '../../../core/engine/system/throttled_system';
 import type { GameState } from '$lib/game/core/state/game_state.svelte';
 
 export class ScreenObjectLifecycleSystem extends ThrottledSystem {

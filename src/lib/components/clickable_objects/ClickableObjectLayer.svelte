@@ -1,9 +1,9 @@
 <script lang="ts">
 	import GoldenObjectCircle from './GoldenObjectCircle.svelte';
-	import { GoldenObject } from '$lib/game/models/screen_objects/interactive/golden_object';
+	import { GoldenObject } from '$lib/game/features/screen_objects/interactive/golden_object';
 	import NefariousObjectCircle from './NefariousObjectCircle.svelte';
-	import { NefariousObject } from '$lib/game/models/screen_objects/interactive/nefarious_object';
-	import { FloatingText } from '$lib/game/models/screen_objects/visual/floating_text';
+	import { NefariousObject } from '$lib/game/features/screen_objects/interactive/nefarious_object';
+	import { FloatingText } from '$lib/game/features/screen_objects/visual/floating_text';
 	import FloatingTextElement from './FloatingTextElement.svelte';
 	import { getGameState } from '$lib/game/ui_bridge/game_context';
 

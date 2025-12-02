@@ -1,19 +1,19 @@
 import { GameEngine } from '$lib/game/core/engine/game_engine.svelte';
-import { ProducerProductionSystem } from '../../systems/definitions/producer_production';
-import { ApplyProductionSystem } from '../../systems/definitions/apply_production';
-import { AutosaveSystem } from '../../systems/definitions/autosave';
-import { SpawnGoldenObjectsSystem } from '../../systems/screen_objects/spawn_golden_objects';
-import { ProcessEffectsSystem } from '../../systems/definitions/process_effects';
-import { ScreenObjectLifecycleSystem } from '../../systems/screen_objects/expire_screen_objects';
-import { SpawnNefariousObjectsSystem } from '../../systems/screen_objects/spawn_nefarious_objects';
+import { ProduceProducersSystem } from '../../features/production/produce_producers_system';
+import { ProduceCurrencySystem } from '../../features/production/produce_currency_system';
+import { SpawnGoldenObjectsSystem } from '../../features/screen_objects/systems/spawn_golden_objects';
+import { ScreenObjectLifecycleSystem } from '../../features/screen_objects/systems/expire_screen_objects';
+import { SpawnNefariousObjectsSystem } from '../../features/screen_objects/systems/spawn_nefarious_objects';
+import { AutosaveSystem } from '../../features/persistence/autosave_system';
 import type { GameState } from '../state/game_state.svelte';
+import { ProcessEffectsSystem } from '$lib/game/features/effects/process_effects_system';
 
 export function createStandardEngine(state: GameState): GameEngine {
 	const engine = new GameEngine();
 
 	engine
-		.addSystem(new ApplyProductionSystem(state))
-		.addSystem(new ProducerProductionSystem(state))
+		.addSystem(new ProduceCurrencySystem(state))
+		.addSystem(new ProduceProducersSystem(state))
 		.addSystem(new AutosaveSystem(state))
 		.addSystem(new ProcessEffectsSystem(state))
 		.addSystem(new ScreenObjectLifecycleSystem(state))

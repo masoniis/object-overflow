@@ -1,5 +1,5 @@
-import { RandomTriggerSystem } from '../random_trigger_system';
-import { NefariousObject } from '$lib/game/models/screen_objects/interactive/nefarious_object';
+import { RandomTriggerSystem } from '../../../core/engine/system/random_trigger_system';
+import { NefariousObject } from '$lib/game/features/screen_objects/interactive/nefarious_object';
 import type { GameState } from '$lib/game/core/state/game_state.svelte';
 import { ResourceIds } from '$lib/game/core/state/constants';
 

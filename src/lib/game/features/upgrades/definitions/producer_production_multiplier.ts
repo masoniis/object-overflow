@@ -1,6 +1,6 @@
 import type { GameState } from '$lib/game/core/state/game_state.svelte';
+import type { Producer } from '$lib/game/features/production/producer.svelte';
 import { Upgrade } from '../upgrade.svelte';
-import { Producer } from '../../producers/producer.svelte';
 
 export class ProducerProductionMultiplierUpgrade extends Upgrade {
 	producerId: string;
@@ -19,18 +19,7 @@ export class ProducerProductionMultiplierUpgrade extends Upgrade {
 		this.multiplier = multiplier;
 	}
 
-	onPurchase(gameState: GameState): void {
-		const producer = gameState.producers.find((p: Producer) => p.id === this.producerId);
-		if (producer) {
-			producer.multiplier *= this.multiplier;
-		} else {
-			console.warn(
-				`ProducerProductionMultiplierUpgrade: Producer with id ${this.producerId} not found.`
-			);
-		}
-	}
-
-	onLoad(gameState: GameState): void {
+	applyEffect(gameState: GameState): void {
 		const producer = gameState.producers.find((p: Producer) => p.id === this.producerId);
 		if (producer) {
 			producer.multiplier *= this.multiplier;

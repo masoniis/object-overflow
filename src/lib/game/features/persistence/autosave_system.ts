@@ -1,4 +1,4 @@
-import { System } from '../system';
+import { System } from '../../core/engine/system/system';
 import type { GameState } from '$lib/game/core/state/game_state.svelte';
 
 export class AutosaveSystem extends System {

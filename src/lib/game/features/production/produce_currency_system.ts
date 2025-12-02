@@ -1,8 +1,8 @@
-import { System } from '../system.ts';
-import { ProductionMultiplierEffect } from '$lib/game/models/effects/definitions/production_multiplier';
+import { System } from '../../core/engine/system/system.ts';
 import { ResourceIds } from '$lib/game/core/state/constants';
+import { ProductionMultiplierEffect } from '../effects/definitions/production_multiplier.ts';
 
-export class ApplyProductionSystem extends System {
+export class ProduceCurrencySystem extends System {
 	tick(delta_seconds: number) {
 		const producers = this.state.producers;
 

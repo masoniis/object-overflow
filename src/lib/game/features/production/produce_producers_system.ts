@@ -1,6 +1,6 @@
-import { System } from '../system';
+import { System } from '../../core/engine/system/system';
 
-export class ProducerProductionSystem extends System {
+export class ProduceProducersSystem extends System {
 	tick(delta_seconds: number) {
 		let productionMultiplier = this.state.effects.getGlobalProductionMultiplier();
 

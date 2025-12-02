@@ -1,7 +1,7 @@
 import type { Savable } from '$lib/game/core/save/savable';
 import { ResourceIds } from '$lib/game/core/state/constants';
-import { INITIAL_PRODUCERS } from '../../data/index';
 import type { Producer, ProducerSaveData } from './producer.svelte';
+import { INITIAL_PRODUCERS } from './producer_data';
 
 export type ProducerManagerSaveData = {
 	id: string;

@@ -1,6 +1,9 @@
 import { System } from './system';
 import type { GameState } from '$lib/game/core/state/game_state.svelte';
 
+/**
+ *  A system that is triggered randomly based on an interval.
+ */
 export abstract class RandomTriggerSystem extends System {
 	private timeToNextTrigger: number;
 	private minSeconds: number;

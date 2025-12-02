@@ -2,6 +2,9 @@ import type { GameState } from '$lib/game/core/state/game_state.svelte';
 import { FloatingText } from '../screen_objects/visual/floating_text';
 import { ResourceIds } from '../../core/state/constants';
 
+/**
+ * A class for controlling game logic regarding player interactions.
+ */
 export class PlayerActionController {
 	constructor(private state: GameState) {}
 

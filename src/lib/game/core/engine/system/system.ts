@@ -1,7 +1,9 @@
 import type { GameState } from '$lib/game/core/state/game_state.svelte';
 import type { Tickable } from '$lib/game/core/engine/tickable';
 
-/// A class for systems that act upon the game state based on the engine event loop.
+/**
+ *  A class for systems that act upon the game state based on the engine event loop.
+ */
 export abstract class System implements Tickable {
 	protected state: GameState;
 

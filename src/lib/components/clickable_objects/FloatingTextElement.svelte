@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { FloatingText } from '$lib/game/models/screen_objects/visual/floating_text';
+	import type { FloatingText } from '$lib/game/features/screen_objects/visual/floating_text';
 
 	let { object } = $props<{ object: FloatingText }>();
 

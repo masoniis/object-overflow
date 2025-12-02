@@ -1,6 +1,6 @@
-import { RandomTriggerSystem } from '../random_trigger_system'; // Adjust import path
-import { GoldenObject } from '../../models/screen_objects/interactive/golden_object';
-import { createRandomEffect } from '../../models/effects/effect_factory';
+import { RandomTriggerSystem } from '../../../core/engine/system/random_trigger_system'; // Adjust import path
+import { GoldenObject } from '../interactive/golden_object';
+import { createRandomEffect } from '../../effects/effect_factory';
 import type { GameState } from '$lib/game/core/state/game_state.svelte';
 
 export class SpawnGoldenObjectsSystem extends RandomTriggerSystem {

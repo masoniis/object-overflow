@@ -9,11 +9,7 @@ export class FlatManualClickBonusUpgrade extends Upgrade {
 		this.bonus = bonus;
 	}
 
-	onPurchase(gameState: GameState): void {
-		gameState.playerStats.addClickPower(this.bonus);
-	}
-
-	onLoad(gameState: GameState): void {
+	applyEffect(gameState: GameState): void {
 		gameState.playerStats.addClickPower(this.bonus);
 	}
 
