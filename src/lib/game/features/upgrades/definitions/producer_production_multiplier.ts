@@ -1,22 +1,20 @@
 import type { GameState } from '$lib/game/core/state/game_state.svelte';
 import type { Producer } from '$lib/game/features/production/producer.svelte';
-import { Upgrade } from '../upgrade.svelte';
+import { Upgrade, type UpgradeConfig } from '../upgrade.svelte';
+
+export interface ProducerMultiplierConfig extends UpgradeConfig {
+	producerId: string;
+	multiplier: number;
+}
 
 export class ProducerProductionMultiplierUpgrade extends Upgrade {
 	producerId: string;
 	multiplier: number;
 
-	constructor(
-		id: string,
-		name: string,
-		description: string,
-		cost: number,
-		producerId: string,
-		multiplier: number
-	) {
-		super(id, name, description, cost);
-		this.producerId = producerId;
-		this.multiplier = multiplier;
+	constructor(config: ProducerMultiplierConfig) {
+		super(config);
+		this.producerId = config.producerId;
+		this.multiplier = config.multiplier;
 	}
 
 	applyEffect(gameState: GameState): void {

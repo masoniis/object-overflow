@@ -3,7 +3,8 @@ import type { Savable } from '../../core/save/savable';
 export interface PlayerStatsSaveData {
 	objects: number;
 	lifetimeObjects: number;
-	manualClickPower: number;
+	// note: manual click power isn't saved since it is derived
+	// state from other stuff like upgrades
 }
 
 export class PlayerStatsManager implements Savable {
@@ -65,14 +66,16 @@ export class PlayerStatsManager implements Savable {
 	save(): PlayerStatsSaveData {
 		return {
 			objects: this._objects,
-			lifetimeObjects: this._lifetimeObjects,
-			manualClickPower: this._manualClickPower
+			lifetimeObjects: this._lifetimeObjects
 		};
+	}
+
+	public reset(): void {
+		this._manualClickPower = PlayerStatsManager.DEFAULT_MANUAL_CLICK_POWER;
 	}
 
 	load(data: PlayerStatsSaveData): void {
 		this._objects = data.objects ?? 0;
 		this._lifetimeObjects = data.lifetimeObjects ?? data.objects ?? 0;
-		this._manualClickPower = data.manualClickPower ?? PlayerStatsManager.DEFAULT_MANUAL_CLICK_POWER;
 	}
 }

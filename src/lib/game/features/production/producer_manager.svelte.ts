@@ -57,6 +57,12 @@ export class ProducerManager implements Savable {
 		}));
 	}
 
+	reset(): void {
+		for (const producer of this.producerList) {
+			producer.reset();
+		}
+	}
+
 	load(data: ProducerManagerSaveData): void {
 		for (const entry of data) {
 			const producer = this.getById(entry.id);

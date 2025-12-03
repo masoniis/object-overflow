@@ -14,7 +14,10 @@
 </script>
 
 <GameStateProvider>
-	<div class="relative overflow-clip sm:px-4 px-2" bind:this={gameContainer}>
+	<div
+		class="relative overflow-clip sm:px-4 px-2 min-h-screen min-w-screen"
+		bind:this={gameContainer}
+	>
 		<ClickableObjectLayer />
 
 		<GameHeader bind:isSettingsModalOpen {gameContainer} />

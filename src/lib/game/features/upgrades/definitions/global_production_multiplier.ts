@@ -1,23 +1,26 @@
 import { GameState } from '$lib/game/core/state/game_state.svelte';
-import { ProductionMultiplierEffect } from '$lib/game/features/effects/definitions/production_multiplier';
-import { Upgrade } from '../upgrade.svelte';
+import { EffectFactory } from '../../effects/effect_factory';
+import { Upgrade, type UpgradeConfig } from '../upgrade.svelte';
+
+export interface GlobalMultiplierConfig extends UpgradeConfig {
+	multiplier: number;
+}
 
 export class GlobalProductionMultiplierUpgrade extends Upgrade {
 	multiplier: number;
 
-	constructor(id: string, name: string, description: string, cost: number, multiplier: number) {
-		super(id, name, description, cost);
-		this.multiplier = multiplier;
+	constructor(config: GlobalMultiplierConfig) {
+		super(config);
+		this.multiplier = config.multiplier;
 	}
 
 	applyEffect(gameState: GameState): void {
 		gameState.addEffect(
-			new ProductionMultiplierEffect(
+			EffectFactory.createPersistentMultiplierEffect(
 				'prod-mult-from-' + this.id,
 				this.name,
 				this.description,
-				this.multiplier,
-				null
+				this.multiplier
 			)
 		);
 	}

@@ -9,14 +9,16 @@ import {
  */
 export interface SaveMetadata {
 	hasSave: boolean;
-	previewScore: number;
+	currencyStored: number;
+	lifetimeCurrency: number;
 	timestamp: number;
 }
 
 // Global reactive state
 export const saveMeta = $state<SaveMetadata>({
 	hasSave: false,
-	previewScore: 0,
+	currencyStored: 0,
+	lifetimeCurrency: 0,
 	timestamp: 0
 });
 
@@ -28,7 +30,8 @@ export function refreshSaveMeta() {
 
 	if (!rawSaveData) {
 		saveMeta.hasSave = false;
-		saveMeta.previewScore = 0;
+		saveMeta.currencyStored = 0;
+		saveMeta.lifetimeCurrency = 0;
 		saveMeta.timestamp = 0;
 		return;
 	}
@@ -41,6 +44,7 @@ export function refreshSaveMeta() {
 
 	// update ui state
 	saveMeta.hasSave = true;
-	saveMeta.previewScore = playerStats?.objects ?? 0;
+	saveMeta.currencyStored = playerStats?.objects ?? 0;
+	saveMeta.lifetimeCurrency = playerStats?.lifetimeObjects ?? 0;
 	saveMeta.timestamp = savedTime;
 }

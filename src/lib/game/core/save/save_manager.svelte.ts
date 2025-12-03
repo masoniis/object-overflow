@@ -76,7 +76,14 @@ export class SaveManager<TContext = GameState> {
 		try {
 			const globalData = JSON.parse(raw);
 
-			// iterate all systems and call their load method with parsed disk data
+			// iterate all systems and call their reset method if it exists
+			for (const savable of this.savables) {
+				if (savable.reset) {
+					savable.reset();
+				}
+			}
+
+			// then call their load method with parsed disk data
 			for (const savable of this.savables) {
 				const data = globalData[savable.saveKey];
 				if (data !== undefined) {

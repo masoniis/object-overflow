@@ -20,8 +20,6 @@
 			class="bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold py-2.5 px-4 rounded-lg shadow-sm transition-all flex items-center justify-center gap-2"
 			onclick={() => {
 				gameState.saves.save();
-				// The SaveManager hook should trigger this automatically,
-				// but calling it here ensures the UI updates instantly.
 				refreshSaveMeta();
 			}}
 		>
@@ -34,9 +32,15 @@
 					Current Save File
 				</div>
 				<div class="flex justify-between items-center text-gray-700">
-					<span>Objects stored:</span>
+					<span>Objects stored</span>
 					<span class="font-mono font-bold text-blue-600 text-lg">
-						{Math.floor(saveMeta.previewScore).toLocaleString()}
+						{Math.floor(saveMeta.currencyStored).toLocaleString()}
+					</span>
+				</div>
+				<div class="flex justify-between items-center text-gray-700">
+					<span>Lifetime profit</span>
+					<span class="font-mono font-bold text-blue-600 text-lg">
+						{Math.floor(saveMeta.lifetimeCurrency).toLocaleString()}
 					</span>
 				</div>
 				<div class="text-[10px] text-gray-400 text-right mt-1">

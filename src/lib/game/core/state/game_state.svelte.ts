@@ -74,6 +74,7 @@ export class GameState {
 		this.saves.register(this.playerStats);
 		this.saves.register(this.producers);
 		this.saves.register(this.upgrades);
+		this.saves.register(this.effects);
 	}
 
 	// INFO: ------------------------------

@@ -1,5 +1,14 @@
 import { ResourceIds } from '$lib/game/core/state/constants';
 import type { GameState } from '$lib/game/core/state/game_state.svelte';
+import type { UpgradeRequirement } from './requirements/upgrade_requirement';
+
+export interface UpgradeConfig {
+	id: string;
+	name: string;
+	description: string;
+	cost: number;
+	requirements?: UpgradeRequirement[];
+}
 
 export interface UpgradeSaveData {
 	isPurchased: boolean;
@@ -10,14 +19,17 @@ export abstract class Upgrade {
 	name: string;
 	description: string;
 	cost: number;
-	isPurchased = $state(false);
+	requirements: UpgradeRequirement[] = [];
 
-	constructor(id: string, name: string, description: string, cost: number) {
+	constructor({ id, name, description, cost, requirements = [] }: UpgradeConfig) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.cost = cost;
+		this.requirements = requirements;
 	}
+
+	isPurchased = $state(false);
 
 	/**
 	 * The core logic of the upgrade.
@@ -26,10 +38,12 @@ export abstract class Upgrade {
 	abstract applyEffect(gameState: GameState): void;
 
 	/**
-	 * The requirement to be met for this upgrade to be available.
-	 * @param gameState The game state to check against.
+	 * Checks if the requirements of an upgrade are met.
 	 */
-	abstract requirement(gameState: GameState): boolean;
+	requirementsMet(gameState: GameState): boolean {
+		if (this.isPurchased) return false;
+		return this.requirements.every((req) => req.isMet(gameState));
+	}
 
 	purchase(gameState: GameState): boolean {
 		if (this.isPurchased) {

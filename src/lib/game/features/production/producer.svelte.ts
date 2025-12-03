@@ -92,6 +92,10 @@ export class Producer {
 		return { count: this.count };
 	}
 
+	public reset() {
+		this.multiplier = 1;
+	}
+
 	public load(data: ProducerSaveData): void {
 		this.count = data.count ?? 0;
 	}
