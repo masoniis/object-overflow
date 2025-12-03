@@ -1,22 +1,22 @@
 <script lang="ts">
 	import { GameState } from '$lib/game/core/game_state.svelte';
-	import { GameEngine } from '$lib/game/core/game_engine.svelte';
 	import { onMount } from 'svelte';
 	import GoldenObject from '$lib/components/GoldenObject.svelte';
 	import { GoldenObject as GoldenObjectClass } from '$lib/game/models/screen_objects/golden_object';
+	import NefariousObject from '$lib/components/NefariousObject.svelte';
+	import { NefariousObject as NefariousObjectClass } from '$lib/game/models/screen_objects/nefarious_object';
 	import Modal from '$lib/components/Modal.svelte';
+	import { createStandardGame } from '$lib/game/core/setup_game';
 
 	// INFO: --------------------
 	//         setup game
 	// --------------------------
 	const gameState = GameState.getInstance();
-	let hasSaveData = $state(false);
+	let hasSaveData = $state(gameState.hasSaveData());
 	let isSettingsModalOpen = $state(false);
 
 	onMount(() => {
-		hasSaveData = gameState.hasSaveData();
-
-		const engine = new GameEngine();
+		const engine = createStandardGame();
 		engine.start();
 		return () => engine.stop();
 	});
@@ -28,6 +28,12 @@
 	const goldenObjects = $derived(
 		gameState.screenObjects.filter(
 			(obj): obj is GoldenObjectClass => obj instanceof GoldenObjectClass
+		)
+	);
+
+	const nefariousObjects = $derived(
+		gameState.screenObjects.filter(
+			(obj): obj is NefariousObjectClass => obj instanceof NefariousObjectClass
 		)
 	);
 </script>
@@ -90,13 +96,23 @@
 		/>
 	{/each}
 
+	{#each nefariousObjects as obj (obj.id)}
+		<NefariousObject
+			object={obj}
+			onClick={() => {
+				obj.onClick(gameState);
+				gameState.removeScreenObject(obj);
+			}}
+		/>
+	{/each}
+
 	<div class="flex flex-row justify-between p-2">
 		<h1 class="self-center">
 			You have <span class="font-bold">{Math.floor(gameState.objects)}</span> objects!
 		</h1>
 
 		<div>
-			<button onclick={() => gameState.addObjects(1)}>Get +1 object</button>
+			<button onclick={() => gameState.modifyResource('object', 1)}>Get +1 object</button>
 			<button onclick={() => (isSettingsModalOpen = true)}>⚙️</button>
 		</div>
 	</div>
@@ -129,7 +145,10 @@
 				</h3>
 				<hr />
 				<p>Owned: {producer.count}</p>
-				<p>Production: {producer.totalProduction}/sec</p>
+				<p>
+					Production: {producer.totalProduction}/sec of
+					<em>{producer.outputResourceId}</em>
+				</p>
 			</div>
 		{/each}
 	</div>

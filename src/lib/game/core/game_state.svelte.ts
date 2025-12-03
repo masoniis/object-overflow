@@ -32,22 +32,54 @@ export class GameState {
 		return GameState.instance;
 	}
 
-	// INFO: ----------------------------
-	//         objects management
-	// ----------------------------------
+	// INFO: ------------------------------
+	//         resources management
+	// ------------------------------------
 
 	private _objects = $state(0);
-
 	get objects() {
 		return this._objects;
 	}
 
-	addObjects(amount: number) {
-		this._objects += amount;
+	/**
+	 *  Modify a target resource `id` by number `amount`
+	 */
+	public modifyResource(id: string, amount: number) {
+		if (id === 'object') {
+			this._objects += amount;
+			return;
+		}
+
+		// check if the ID belongs to a producer
+		const producer = this._producers.find((p) => p.id === id);
+		if (producer) {
+			producer.count += amount;
+			return;
+		}
+
+		console.warn(`Attempted to modify unknown resource: ${id}`);
 	}
 
-	removeObjects(amount: number) {
-		this._objects -= amount;
+	/**
+	 *  Gets the current amount of any resource
+	 */
+	public getResourceAmount(id: string): number {
+		if (id === 'object') return this._objects;
+
+		const producer = this._producers.find((p) => p.id === id);
+		return producer ? producer.count : 0;
+	}
+
+	/**
+	 *  Tries transacting a resource, only spending if enough cost is present
+	 */
+	public tryTransaction(costId: string, costAmount: number): boolean {
+		const current = this.getResourceAmount(costId);
+		if (current >= costAmount) {
+			this.modifyResource(costId, -costAmount);
+			return true;
+		}
+		return false;
 	}
 
 	// INFO: -----------------------------

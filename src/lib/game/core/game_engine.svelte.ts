@@ -1,10 +1,4 @@
 import type { Tickable } from '$lib/game/core/interfaces';
-import { GameState } from '$lib/game/core/game_state.svelte';
-import { ApplyProductionSystem } from '../systems/definitions/apply_production';
-import { AutosaveSystem } from '../systems/definitions/autosave';
-import { GoldenObjectSystem } from '../systems/definitions/golden_object_system';
-import { ProcessEffectsSystem } from '../systems/definitions/process_effects';
-import { ScreenObjectLifecycleSystem } from '../systems/definitions/expire_screen_objects';
 
 export class GameEngine {
 	// The max value in which a frame delta can be to ensure that
@@ -21,13 +15,6 @@ export class GameEngine {
 
 	constructor() {
 		console.log('‼️ GameEngine instantiated');
-		const state = GameState.getInstance();
-
-		this.addSystem(new ApplyProductionSystem(state))
-			.addSystem(new AutosaveSystem(state))
-			.addSystem(new ProcessEffectsSystem(state))
-			.addSystem(new ScreenObjectLifecycleSystem(state))
-			.addSystem(new GoldenObjectSystem(state));
 	}
 
 	// INFO: -----------------------------

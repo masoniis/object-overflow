@@ -1,5 +1,7 @@
 import { Effect } from '../effect.svelte';
 
+// TODO: this effect with no body is a code smell suggesting the abstract effect
+// class is too general
 export class ProductionMultiplierEffect extends Effect {
 	constructor(
 		id: string,

@@ -1,31 +1,38 @@
-import { GameState } from '$lib/game/core/game_state.svelte';
+import type { GameState } from '$lib/game/core/game_state.svelte';
 import type { Savable } from '$lib/game/core/interfaces';
 
-/**
- * The save data necessary to recreate a producer from its ID
- */
 export interface ProducerSaveData {
 	count: number;
 	multiplier: number;
 }
 
-/**
- * A class for a game element that produces objects.
- */
 export class Producer implements Savable<ProducerSaveData> {
 	id: string;
 	name: string;
+
+	outputResourceId: string;
+	costResourceId: string;
+
 	baseCost: number;
 	baseProduction: number;
 
 	count = $state(0);
 	multiplier = $state(1);
 
-	constructor(id: string, name: string, cost: number, production: number) {
+	constructor(
+		id: string,
+		name: string,
+		cost: number,
+		production: number,
+		options: { output?: string; cost?: string } = {}
+	) {
 		this.id = id;
 		this.name = name;
 		this.baseCost = cost;
 		this.baseProduction = production;
+
+		this.outputResourceId = options.output ?? 'object';
+		this.costResourceId = options.cost ?? 'object';
 	}
 
 	get totalProduction() {
@@ -37,19 +44,15 @@ export class Producer implements Savable<ProducerSaveData> {
 	}
 
 	buy(gameState: GameState) {
-		gameState.removeObjects(this.currentCost);
-		this.count += 1;
+		const success = gameState.tryTransaction(this.costResourceId, this.currentCost);
+
+		if (success) {
+			this.count += 1;
+		}
 	}
 
-	// INFO: -----------------------
-	//         savable logic
-	// -----------------------------
-
 	save(): ProducerSaveData {
-		return {
-			count: this.count,
-			multiplier: this.multiplier
-		};
+		return { count: this.count, multiplier: this.multiplier };
 	}
 
 	load(data: ProducerSaveData) {

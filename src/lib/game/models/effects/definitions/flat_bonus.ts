@@ -13,6 +13,6 @@ export class FlatBonusEffect extends Effect {
 	}
 
 	onApply(gameState: GameState): void {
-		gameState.addObjects(this.bonus);
+		gameState.modifyResource('object', this.bonus);
 	}
 }

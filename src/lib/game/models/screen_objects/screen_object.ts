@@ -11,10 +11,6 @@ export abstract class ScreenObject {
 	spawnedAt: number = Date.now();
 	abstract duration: number; // How long it stays on screen (ms)
 
-	// Visuals
-	abstract icon: string;
-	abstract cssClass: string;
-
 	constructor() {
 		this.x = Math.random() * 100;
 		this.y = Math.random() * 100;
@@ -26,8 +22,7 @@ export abstract class ScreenObject {
 	abstract onClick(game: GameState): void;
 
 	/**
-	 * Optional: What happens if the object disappears without being clicked?
-	 * (e.g., a "Golden Object" might give a "Missed!" message)
+	 * (optional) What happens if the object disappears without being clicked?
 	 */
 	onExpire(_game: GameState): void {
 		// defaults to nothing

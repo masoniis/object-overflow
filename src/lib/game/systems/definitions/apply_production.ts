@@ -26,6 +26,6 @@ export class ApplyProductionSystem extends GameSystem {
 		rate *= multiplier;
 
 		// update global state
-		this.state.addObjects(rate * dt);
+		this.state.modifyResource('object', rate * dt);
 	}
 }
