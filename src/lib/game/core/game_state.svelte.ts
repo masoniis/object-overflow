@@ -130,6 +130,12 @@ export class GameState {
 	//         save/load management
 	// ------------------------------------
 
+	private _savedObjectCount = $state(this.getSaveObjectCount());
+
+	get savedObjectCount() {
+		return this._savedObjectCount;
+	}
+
 	public save() {
 		const data: GlobalSaveData = {
 			objects: this._objects,
@@ -140,6 +146,7 @@ export class GameState {
 		};
 
 		localStorage.setItem(GameState.SAVE_KEY, JSON.stringify(data));
+		this._savedObjectCount = this._objects;
 		console.log('💾 Game Saved');
 	}
 
@@ -166,6 +173,18 @@ export class GameState {
 			console.log('✅ Game Loaded');
 		} catch (e) {
 			console.error('❌ Failed to load save data:', e);
+		}
+	}
+
+	private getSaveObjectCount(): number | null {
+		const raw = localStorage.getItem(GameState.SAVE_KEY);
+		if (!raw) return null;
+
+		try {
+			const data: GlobalSaveData = JSON.parse(raw);
+			return data.objects ?? 0;
+		} catch (e) {
+			return null;
 		}
 	}
 

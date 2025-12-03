@@ -12,8 +12,8 @@ export abstract class ScreenObject {
 	abstract duration: number; // How long it stays on screen (ms)
 
 	// Visuals
-	abstract icon: string; // "🌟", "💀", etc.
-	abstract cssClass: string; // "golden", "red", etc.
+	abstract icon: string;
+	abstract cssClass: string;
 
 	constructor() {
 		this.x = Math.random() * 100;
@@ -30,7 +30,7 @@ export abstract class ScreenObject {
 	 * (e.g., a "Golden Object" might give a "Missed!" message)
 	 */
 	onExpire(_game: GameState): void {
-		// Default: do nothing
+		// defaults to nothing
 	}
 
 	get isExpired(): boolean {
