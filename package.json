@@ -37,5 +37,8 @@
 		"typescript-eslint": "^8.48.1",
 		"vite": "^7.2.6",
 		"vitest": "^4.0.15"
-	}
+	},
+	"resolutions": {
+    "estree-walker": "npm:@benpsnyder/estree-walker@3.0.3"
+  }
 }
