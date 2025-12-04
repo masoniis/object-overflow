@@ -1,110 +1,31 @@
 <script lang="ts">
 	import { GameState } from '$lib/game/core/game_state.svelte';
 	import { onMount } from 'svelte';
-	import GoldenObject from '$lib/components/GoldenObject.svelte';
-	import { GoldenObject as GoldenObjectClass } from '$lib/game/models/screen_objects/golden_object';
-	import NefariousObject from '$lib/components/NefariousObject.svelte';
-	import { NefariousObject as NefariousObjectClass } from '$lib/game/models/screen_objects/nefarious_object';
-	import Modal from '$lib/components/Modal.svelte';
 	import { createStandardGame } from '$lib/game/core/setup_game';
+	import Settings from '$lib/components/Settings.svelte';
+	import ClickableObjectLayer from '$lib/components/clickable_objects/ClickableObjectLayer.svelte';
+
+	// INFO: -------------------------
+	//         ui shared state
+	// -------------------------------
+	let isSettingsModalOpen = $state(false);
 
 	// INFO: --------------------
 	//         setup game
 	// --------------------------
 	const gameState = GameState.getInstance();
-	let hasSaveData = $state(gameState.hasSaveData());
-	let isSettingsModalOpen = $state(false);
 
 	onMount(() => {
 		const engine = createStandardGame();
 		engine.start();
 		return () => engine.stop();
 	});
-
-	// INFO: -----------------------------
-	//         derived ui elements
-	// -----------------------------------
-
-	const goldenObjects = $derived(
-		gameState.screenObjects.filter(
-			(obj): obj is GoldenObjectClass => obj instanceof GoldenObjectClass
-		)
-	);
-
-	const nefariousObjects = $derived(
-		gameState.screenObjects.filter(
-			(obj): obj is NefariousObjectClass => obj instanceof NefariousObjectClass
-		)
-	);
 </script>
 
-<Modal bind:isOpen={isSettingsModalOpen} title="Settings">
-	<div class="flex flex-col gap-3 min-w-[250px]">
-		<button
-			class="bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold py-2.5 px-4 rounded-lg shadow-sm transition-all flex items-center justify-center gap-2"
-			onclick={() => {
-				gameState.save();
-				hasSaveData = true;
-			}}
-		>
-			<span>💾</span> Save Progress
-		</button>
-
-		{#if gameState.savedObjectCount !== null}
-			<div class="bg-gray-50 border border-gray-200 rounded-md p-3 text-sm">
-				<div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">
-					Current Save File
-				</div>
-				<div class="flex justify-between items-center text-gray-700">
-					<span>Objects stored:</span>
-					<span class="font-mono font-bold text-blue-600 text-lg">
-						{Math.floor(gameState.savedObjectCount).toLocaleString()}
-					</span>
-				</div>
-			</div>
-		{/if}
-
-		<button
-			class="bg-green-600 hover:bg-green-700 disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed text-white font-bold py-2.5 px-4 rounded-lg shadow-sm transition-all"
-			onclick={() => {
-				gameState.load();
-			}}
-			disabled={!hasSaveData}
-		>
-			Load Game
-		</button>
-
-		<hr class="border-gray-100 my-1" />
-
-		<button
-			class="text-gray-500 hover:text-gray-800 hover:bg-gray-100 py-2 rounded text-sm transition-colors"
-			onclick={() => (isSettingsModalOpen = false)}
-		>
-			Close
-		</button>
-	</div>
-</Modal>
+<Settings bind:isOpen={isSettingsModalOpen} />
 
 <div class="relative px-2">
-	{#each goldenObjects as obj (obj.id)}
-		<GoldenObject
-			object={obj}
-			onClick={() => {
-				obj.onClick(gameState);
-				gameState.removeScreenObject(obj);
-			}}
-		/>
-	{/each}
-
-	{#each nefariousObjects as obj (obj.id)}
-		<NefariousObject
-			object={obj}
-			onClick={() => {
-				obj.onClick(gameState);
-				gameState.removeScreenObject(obj);
-			}}
-		/>
-	{/each}
+	<ClickableObjectLayer />
 
 	<div class="flex flex-row justify-between p-2">
 		<h1 class="self-center">
@@ -112,7 +33,9 @@
 		</h1>
 
 		<div>
-			<button onclick={() => gameState.modifyResource('object', gameState.manualClickPower)}>Get +{gameState.manualClickPower} object</button>
+			<button onclick={() => gameState.modifyResource('object', gameState.manualClickPower)}
+				>Get +{gameState.manualClickPower} object</button
+			>
 			<button onclick={() => (isSettingsModalOpen = true)}>⚙️</button>
 		</div>
 	</div>

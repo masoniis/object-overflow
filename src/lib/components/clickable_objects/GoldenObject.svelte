@@ -7,18 +7,10 @@
 	let left = $derived(object.x);
 </script>
 
-<button class="golden-object" style="top: {top}%; left: {left}%" onclick={onClick}>
+<button
+	class="absolute z-40 h-20 w-20 cursor-pointer rounded-full bg-amber-500"
+	style="top: {top}%; left: {left}%"
+	onclick={onClick}
+>
 	Golden Object
 </button>
-
-<style>
-	.golden-object {
-		position: absolute;
-		width: 80px;
-		height: 80px;
-		background-color: gold;
-		border-radius: 50%;
-		cursor: pointer;
-		z-index: 100;
-	}
-</style>

@@ -17,6 +17,7 @@ interface GlobalSaveData {
 export class GameState {
 	private static readonly SAVE_KEY = 'object-overflow-save';
 
+	// default state for game elements
 	private static readonly DEFAULT_MANUAL_CLICK_POWER = 1;
 
 	// INFO: ------------------------
@@ -223,7 +224,7 @@ export class GameState {
 			}
 
 			// reset transient state before loading upgrades
-			this.manualClickPower = 1;
+			this.manualClickPower = GameState.DEFAULT_MANUAL_CLICK_POWER;
 			this._effects = [];
 			for (const producer of this._producers) {
 				producer.multiplier = 1;

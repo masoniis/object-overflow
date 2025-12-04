@@ -7,18 +7,10 @@
 	let left = $derived(object.x);
 </script>
 
-<button class="nefarious-object" style="top: {top}%; left: {left}%" onclick={onClick}>
+<button
+	class="absolute z-40 h-20 w-20 cursor-pointer rounded-full bg-red-500"
+	style="top: {top}%; left: {left}%"
+	onclick={onClick}
+>
 	Nefarious Object
 </button>
-
-<style>
-	.nefarious-object {
-		position: absolute;
-		width: 80px;
-		height: 80px;
-		background-color: red;
-		border-radius: 50%;
-		cursor: pointer;
-		z-index: 100;
-	}
-</style>
