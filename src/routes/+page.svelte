@@ -4,6 +4,7 @@
 	import { createStandardGame } from '$lib/game/core/setup_game';
 	import Settings from '$lib/components/Settings.svelte';
 	import ClickableObjectLayer from '$lib/components/clickable_objects/ClickableObjectLayer.svelte';
+	import Upgrades from '$lib/components/Upgrades.svelte';
 
 	// INFO: -------------------------
 	//         ui shared state
@@ -45,7 +46,7 @@
 			<hr class="py-2" />
 			<h2>Active effects:</h2>
 			<ul>
-				{#each gameState.effects as effect}
+				{#each gameState.effects as effect (effect.id)}
 					<li>{effect.name}: {effect.description}</li>
 				{/each}
 			</ul>
@@ -54,8 +55,10 @@
 
 	<hr class="py-2" />
 
+	<Upgrades />
+
 	<div class="grid grid-cols-1 sm:grid-cols-2">
-		{#each gameState.producers as producer}
+		{#each gameState.producers as producer (producer.id)}
 			<div class="bg-gray-300 dark:bg-gray-600 m-1 p-2 rounded-2xl">
 				<h3 class="flex flex-row justify-between pb-1.5">
 					<div class="font-bold content-center">{producer.name}</div>
@@ -77,27 +80,4 @@
 	</div>
 
 	<hr class="py-2" />
-
-	<div>
-		<h2>Upgrades</h2>
-		<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-			{#each gameState.upgrades as upgrade}
-				{#if !upgrade.isPurchased && upgrade.requirement(gameState)}
-					<div class="bg-gray-300 dark:bg-gray-600 m-1 p-2 rounded-2xl">
-						<h3 class="flex flex-row justify-between pb-1.5">
-							<div class="font-bold content-center">{upgrade.name}</div>
-							<button
-								disabled={gameState.objects < upgrade.cost}
-								onclick={() => upgrade.purchase(gameState)}
-							>
-								Buy (💰{upgrade.cost})
-							</button>
-						</h3>
-						<hr />
-						<p>{upgrade.description}</p>
-					</div>
-				{/if}
-			{/each}
-		</div>
-	</div>
 </div>

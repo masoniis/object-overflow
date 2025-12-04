@@ -1,7 +1,5 @@
 import { GameState } from '$lib/game/core/game_state.svelte';
 import { GameSystem } from '../abstract_gamesystem';
-import { GoldenObject } from '../../models/screen_objects/golden_object';
-import { createRandomEffect } from '../../models/effects/effect_factory';
 import { NefariousObject } from '$lib/game/models/screen_objects/nefarious_object';
 
 export class SpawnNefariousObjectsSystem extends GameSystem {
@@ -17,7 +15,7 @@ export class SpawnNefariousObjectsSystem extends GameSystem {
 	}
 
 	private getRandomSpawnTime(): number {
-		return Math.random() * 15000 + 6000;
+		return Math.random() * 35000 + 16000;
 	}
 
 	private spawnNefariousObject() {

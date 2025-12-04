@@ -9,7 +9,7 @@ export abstract class ScreenObject {
 
 	// Lifespan logic
 	spawnedAt: number = Date.now();
-	abstract duration: number; // How long it stays on screen (ms)
+	abstract duration: number; // how long it stays on screen (ms)
 
 	constructor() {
 		this.x = Math.random() * 100;
@@ -22,7 +22,7 @@ export abstract class ScreenObject {
 	abstract onClick(game: GameState): void;
 
 	/**
-	 * (optional) What happens if the object disappears without being clicked?
+	 * What happens if the object disappears without being clicked?
 	 */
 	onExpire(_game: GameState): void {
 		// defaults to nothing

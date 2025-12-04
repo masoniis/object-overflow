@@ -20,18 +20,20 @@ export abstract class Effect {
 	}
 
 	/**
-	 * A function to apply the effect to the game state.
-	 * This is called when the effect is first added.
+	 * A function called when an effect is first added too the game.
 	 * @param gameState The game state to modify.
 	 */
-	onApply(_gameState: GameState): void {}
+	onApply(_gameState: GameState): void {
+		// default to no effect
+	}
 
 	/**
-	 * A function to remove the effect from the game state.
-	 * This is called when the effect expires or is removed.
+	 * A function called when an effect is removed (expired or otherwise).
 	 * @param gameState The game state to modify.
 	 */
-	onRemove(_gameState: GameState): void {}
+	onRemove(_gameState: GameState): void {
+		// default to no effect
+	}
 
 	/**
 	 * Checks if the effect has expired.

@@ -3,7 +3,7 @@ import { ProductionMultiplierEffect } from '$lib/game/models/effects/definitions
 
 export class ApplyProductionSystem extends GameSystem {
 	tick(dt: number) {
-		let producers = this.state.producers;
+		const producers = this.state.producers;
 
 		// get production
 		let rate = 0;
@@ -12,7 +12,7 @@ export class ApplyProductionSystem extends GameSystem {
 		}
 
 		// get all effects
-		let effects = this.state.effects;
+		const effects = this.state.effects;
 
 		// calc multiplier
 		let multiplier = 1;

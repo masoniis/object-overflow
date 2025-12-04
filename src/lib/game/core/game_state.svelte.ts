@@ -247,7 +247,7 @@ export class GameState {
 
 			console.log('✅ Game Loaded');
 		} catch (e) {
-			console.error('❌ Failed to load save data:', e);
+			console.error(`❌ Failed to load save data: ${e}`);
 		}
 	}
 
@@ -258,7 +258,7 @@ export class GameState {
 		try {
 			const data: GlobalSaveData = JSON.parse(raw);
 			return data.objects ?? 0;
-		} catch (e) {
+		} catch {
 			return null;
 		}
 	}

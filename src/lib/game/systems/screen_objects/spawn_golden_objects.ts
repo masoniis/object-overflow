@@ -16,7 +16,7 @@ export class SpawnGoldenObjectsSystem extends GameSystem {
 	}
 
 	private getRandomSpawnTime(): number {
-		return Math.random() * 300 + 600;
+		return Math.random() * 30000 + 6000;
 	}
 
 	private spawnGoldenObject() {
