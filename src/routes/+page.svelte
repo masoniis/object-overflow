@@ -112,7 +112,7 @@
 		</h1>
 
 		<div>
-			<button onclick={() => gameState.modifyResource('object', 1)}>Get +1 object</button>
+			<button onclick={() => gameState.modifyResource('object', gameState.manualClickPower)}>Get +{gameState.manualClickPower} object</button>
 			<button onclick={() => (isSettingsModalOpen = true)}>⚙️</button>
 		</div>
 	</div>
@@ -146,10 +146,35 @@
 				<hr />
 				<p>Owned: {producer.count}</p>
 				<p>
-					Production: {producer.totalProduction}/sec of
+					Production: {producer.totalProduction(gameState)}/sec of
 					<em>{producer.outputResourceId}</em>
 				</p>
 			</div>
 		{/each}
+	</div>
+
+	<hr class="py-2" />
+
+	<div>
+		<h2>Upgrades</h2>
+		<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+			{#each gameState.upgrades as upgrade}
+				{#if !upgrade.isPurchased && upgrade.requirement(gameState)}
+					<div class="bg-gray-300 dark:bg-gray-600 m-1 p-2 rounded-2xl">
+						<h3 class="flex flex-row justify-between pb-1.5">
+							<div class="font-bold content-center">{upgrade.name}</div>
+							<button
+								disabled={gameState.objects < upgrade.cost}
+								onclick={() => upgrade.purchase(gameState)}
+							>
+								Buy (💰{upgrade.cost})
+							</button>
+						</h3>
+						<hr />
+						<p>{upgrade.description}</p>
+					</div>
+				{/if}
+			{/each}
+		</div>
 	</div>
 </div>

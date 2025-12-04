@@ -8,7 +8,7 @@ export class ApplyProductionSystem extends GameSystem {
 		// get production
 		let rate = 0;
 		for (const p of producers) {
-			rate += p.totalProduction;
+			rate += p.totalProduction(this.state);
 		}
 
 		// get all effects

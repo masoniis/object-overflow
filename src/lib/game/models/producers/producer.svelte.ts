@@ -3,7 +3,15 @@ import type { Savable } from '$lib/game/core/interfaces';
 
 export interface ProducerSaveData {
 	count: number;
-	multiplier: number;
+}
+
+interface ProducerDefinition {
+	id: string;
+	name: string;
+	cost: number;
+	production: number;
+	outputResourceId?: string;
+	costResourceId?: string;
 }
 
 export class Producer implements Savable<ProducerSaveData> {
@@ -19,24 +27,24 @@ export class Producer implements Savable<ProducerSaveData> {
 	count = $state(0);
 	multiplier = $state(1);
 
-	constructor(
-		id: string,
-		name: string,
-		cost: number,
-		production: number,
-		options: { output?: string; cost?: string } = {}
-	) {
+	constructor({
+		id,
+		name,
+		cost,
+		production,
+		outputResourceId = 'object',
+		costResourceId = 'object'
+	}: ProducerDefinition) {
 		this.id = id;
 		this.name = name;
 		this.baseCost = cost;
 		this.baseProduction = production;
-
-		this.outputResourceId = options.output ?? 'object';
-		this.costResourceId = options.cost ?? 'object';
+		this.outputResourceId = outputResourceId;
+		this.costResourceId = costResourceId;
 	}
 
-	get totalProduction() {
-		return this.baseProduction * this.count * this.multiplier;
+	totalProduction(gameState: GameState) {
+		return this.baseProduction * this.count * this.multiplier * gameState.productionMultiplier;
 	}
 
 	get currentCost() {
@@ -52,11 +60,10 @@ export class Producer implements Savable<ProducerSaveData> {
 	}
 
 	save(): ProducerSaveData {
-		return { count: this.count, multiplier: this.multiplier };
+		return { count: this.count };
 	}
 
 	load(data: ProducerSaveData) {
 		this.count = data.count ?? 0;
-		this.multiplier = data.multiplier ?? 1;
 	}
 }

@@ -3,16 +3,21 @@ import type { Effect } from '$lib/game/models/effects/effect.svelte';
 import { ProductionMultiplierEffect } from '$lib/game/models/effects/definitions/production_multiplier';
 import type { ScreenObject } from '$lib/game/models/screen_objects/screen_object';
 import { INITIAL_PRODUCERS } from '../data/initial_producers';
+import type { Upgrade, UpgradeSaveData } from '$lib/game/models/upgrades/upgrade.svelte';
+import { INITIAL_UPGRADES } from '../data/initial_upgrades';
 
 /// The shape of the global save file
 interface GlobalSaveData {
 	objects: number;
 	producers: { id: string; data: ProducerSaveData }[];
+	upgrades: { id: string; data: UpgradeSaveData }[];
 }
 
 /// The core state singleton that represents the game (currency, income, etc)
 export class GameState {
 	private static readonly SAVE_KEY = 'object-overflow-save';
+
+	private static readonly DEFAULT_MANUAL_CLICK_POWER = 1;
 
 	// INFO: ------------------------
 	//        singleton setup
@@ -41,10 +46,17 @@ export class GameState {
 		return this._objects;
 	}
 
+	manualClickPower = $state(1);
+
 	/**
 	 *  Modify a target resource `id` by number `amount`
 	 */
 	public modifyResource(id: string, amount: number) {
+		if (!Number.isFinite(amount)) {
+			console.warn(`[GameState] Attempted to modify '${id}' by invalid amount:`, amount);
+			return;
+		}
+
 		if (id === 'object') {
 			this._objects += amount;
 			return;
@@ -94,6 +106,16 @@ export class GameState {
 
 	addProducer(producer: Producer) {
 		this._producers.push(producer);
+	}
+
+	// INFO: -----------------------------
+	//         upgrade management
+	// -----------------------------------
+
+	private _upgrades: Upgrade[] = $state([...INITIAL_UPGRADES]);
+
+	get upgrades() {
+		return this._upgrades;
 	}
 
 	// INFO: ------------------------------
@@ -168,6 +190,10 @@ export class GameState {
 			producers: this._producers.map((p) => ({
 				id: p.id,
 				data: p.save()
+			})),
+			upgrades: this._upgrades.map((u) => ({
+				id: u.id,
+				data: u.save()
 			}))
 		};
 
@@ -193,6 +219,28 @@ export class GameState {
 					producerDef.load(entry.data);
 				} else {
 					console.warn(`⚠️ Save file contains unknown producer: ${entry.id}`);
+				}
+			}
+
+			// reset transient state before loading upgrades
+			this.manualClickPower = 1;
+			this._effects = [];
+			for (const producer of this._producers) {
+				producer.multiplier = 1;
+			}
+
+			// load saved upgrades
+			if (data.upgrades) {
+				for (const entry of data.upgrades) {
+					const upgradeDef = this._upgrades.find((u) => u.id === entry.id);
+					if (upgradeDef) {
+						upgradeDef.load(entry.data);
+						if (upgradeDef.isPurchased) {
+							upgradeDef.onLoad(this);
+						}
+					} else {
+						console.warn(`⚠️ Save file contains unknown upgrade: ${entry.id}`);
+					}
 				}
 			}
 
