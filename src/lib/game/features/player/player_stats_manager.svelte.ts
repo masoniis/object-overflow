@@ -1,8 +1,8 @@
 import type { Savable } from '../../core/save/savable';
 
 export interface PlayerStatsSaveData {
-	objects: number;
-	lifetimeObjects: number;
+	mainCurrency: number;
+	lifetimeProfits: number;
 	// note: manual click power isn't saved since it is derived
 	// state from other stuff like upgrades
 }
@@ -16,18 +16,18 @@ export class PlayerStatsManager implements Savable {
 	// ---------------------
 
 	// economy resources
-	private _objects = $state(0);
-	private _lifetimeObjects = $state(0);
+	private _mainCurrency = $state(0);
+	private _lifetimeProfits = $state(0);
 
 	// economy stats
 	private _manualClickPower = $state(PlayerStatsManager.DEFAULT_MANUAL_CLICK_POWER);
 
 	// getters
 	get objects() {
-		return this._objects;
+		return this._mainCurrency;
 	}
 	get lifetimeObjects() {
-		return this._lifetimeObjects;
+		return this._lifetimeProfits;
 	}
 	get manualClickPower() {
 		return this._manualClickPower;
@@ -40,13 +40,13 @@ export class PlayerStatsManager implements Savable {
 	/**
 	 * Add objects to the balance.
 	 */
-	addObjects(amount: number) {
+	addMainCurrency(amount: number) {
 		if (amount > 0) {
-			this._objects += amount;
-			this._lifetimeObjects += amount;
+			this._mainCurrency += amount;
+			this._lifetimeProfits += amount;
 		} else {
 			// amount is negative, shouldn't modify lifetime earnings
-			this._objects += amount;
+			this._mainCurrency += amount;
 		}
 	}
 
@@ -65,8 +65,8 @@ export class PlayerStatsManager implements Savable {
 
 	save(): PlayerStatsSaveData {
 		return {
-			objects: this._objects,
-			lifetimeObjects: this._lifetimeObjects
+			mainCurrency: this._mainCurrency,
+			lifetimeProfits: this._lifetimeProfits
 		};
 	}
 
@@ -75,7 +75,7 @@ export class PlayerStatsManager implements Savable {
 	}
 
 	load(data: PlayerStatsSaveData): void {
-		this._objects = data.objects ?? 0;
-		this._lifetimeObjects = data.lifetimeObjects ?? data.objects ?? 0;
+		this._mainCurrency = data.mainCurrency ?? 0;
+		this._lifetimeProfits = data.lifetimeProfits ?? data.mainCurrency ?? 0;
 	}
 }

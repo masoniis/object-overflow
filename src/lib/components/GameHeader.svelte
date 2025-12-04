@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { ResourceIds } from '$lib/game/core/state/constants';
 	import getClickCoordinates from '$lib/game/ui_bridge/click_coordinates';
 	import { getGameState } from '$lib/game/ui_bridge/game_context';
 	import Settings from './Settings.svelte';
@@ -16,11 +17,12 @@
 <div class="flex flex-row justify-between items-center border-b-1">
 	<div>
 		<h1 class="text-lg">
-			You have <span class="font-bold">{Math.floor(gameState.playerStats.objects)}</span> objects!
+			You have <span class="font-bold">{Math.floor(gameState.playerStats.objects)}</span>
+			{ResourceIds.Currency}s!
 		</h1>
 		<p class="text-sm">
 			Producing <span class="font-bold">{gameState.totalObjectProduction.toFixed(2)}</span>
-			objects/second
+			{ResourceIds.Currency}s/second
 		</p>
 	</div>
 
@@ -31,7 +33,8 @@
 				gameState.actions.clickMainObjective(coords.x, coords.y);
 			}}
 		>
-			Get +{gameState.playerStats.manualClickPower} object
+			Get +{gameState.playerStats.manualClickPower}
+			{ResourceIds.Currency}
 		</button>
 
 		<button onclick={() => (isSettingsModalOpen = true)}>⚙️</button>

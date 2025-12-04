@@ -44,7 +44,7 @@ export function refreshSaveMeta() {
 
 	// update ui state
 	saveMeta.hasSave = true;
-	saveMeta.currencyStored = playerStats?.objects ?? 0;
-	saveMeta.lifetimeCurrency = playerStats?.lifetimeObjects ?? 0;
+	saveMeta.currencyStored = playerStats?.mainCurrency ?? 0;
+	saveMeta.lifetimeCurrency = playerStats?.lifetimeProfits ?? 0;
 	saveMeta.timestamp = savedTime;
 }

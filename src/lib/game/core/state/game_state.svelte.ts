@@ -93,7 +93,7 @@ export class GameState {
 		// acts as a router here, deciding which inner class to update
 
 		if (id === ResourceIds.Currency) {
-			this.playerStats.addObjects(amount);
+			this.playerStats.addMainCurrency(amount);
 			return;
 		}
 

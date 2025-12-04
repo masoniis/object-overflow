@@ -40,3 +40,7 @@ The `ScreenObject` abstract class defines an `onClick` method that concrete impl
 - The **receiver** is `GameState` (while typically receiver is a part of the command object set during construction, we pass it in.
 - The **invoker** is the UI button that calls `onClick` with no knowledge of the logic contained.
 - The **client** is one of the systems that spawn `ScreenObject` instances, such as seen in `spawn_golden_objects.ts`.
+
+### 6. **Iterator pattern** for `Managers`s (eg `UpgradeManager`)
+
+Many of the "manager" classes hold a list of elements inside. We implemented iterator on these classes to enable traversal and access without exposing the underlying information.

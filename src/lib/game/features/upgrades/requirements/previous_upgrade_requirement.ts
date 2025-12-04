@@ -1,11 +1,12 @@
 import type { UpgradeRequirement } from './upgrade_requirement';
 import type { GameState } from '$lib/game/core/state/game_state.svelte';
 
-export class PreviousUpgradeRequirement implements UpgradeRequirement {
-	constructor(private readonly upgradeId: string) {}
+export class OtherUpgradeFirstRequirement implements UpgradeRequirement {
+	constructor(private readonly otherUpgradeRequired: string) {}
 
 	isMet(gameState: GameState): boolean {
-		const upgrade = gameState.upgrades.getById(this.upgradeId);
-		return upgrade ? upgrade.isPurchased : false;
+		// we are only met if the other upgrade has been purchased
+		const otherUpgrade = gameState.upgrades.getById(this.otherUpgradeRequired);
+		return otherUpgrade ? otherUpgrade.isPurchased : false;
 	}
 }

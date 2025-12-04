@@ -19,10 +19,6 @@ export class UpgradeManager implements Savable<UpgradeManagerSaveData, GameState
 	//         getters
 	// -----------------------
 
-	get upgradeList() {
-		return this._upgradeList;
-	}
-
 	get length() {
 		return this._upgradeList.length;
 	}

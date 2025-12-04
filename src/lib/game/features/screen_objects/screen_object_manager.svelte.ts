@@ -1,45 +1,67 @@
 import type { ScreenObject } from './screen_object';
 
 export class ScreenObjectManager {
-	// The visual list of objects currently on stage
-	private _list: ScreenObject[] = $state([]);
+	// the visual list of objects currently on screen
+	private _screenObjectList: ScreenObject[] = $state([]);
 
-	get list() {
-		return this._list;
-	}
+	// INFO: -----------------
+	//         reading
+	// -----------------------
 
 	get length() {
-		return this._list.length;
+		return this._screenObjectList.length;
 	}
 
 	[Symbol.iterator]() {
-		return this._list[Symbol.iterator]();
+		return this._screenObjectList[Symbol.iterator]();
 	}
 
 	public find(predicate: (object: ScreenObject) => boolean): ScreenObject | undefined {
-		return this._list.find(predicate);
+		return this._screenObjectList.find(predicate);
 	}
 
 	public filter(predicate: (object: ScreenObject) => boolean): ScreenObject[] {
-		return this._list.filter(predicate);
+		return this._screenObjectList.filter(predicate);
 	}
 
+	// INFO: -------------------
+	//         modifying
+	// -------------------------
+
+	/**
+	 * Adds the specified object to the game if it exists.
+	 */
 	add(object: ScreenObject) {
-		this._list.push(object);
+		this._screenObjectList.push(object);
 	}
 
+	/**
+	 * Removes the specified object from the game if it exists.
+	 */
 	remove(object: ScreenObject) {
-		const index = this._list.indexOf(object);
+		const index = this._screenObjectList.indexOf(object);
 		if (index > -1) {
-			this._list.splice(index, 1);
+			this._screenObjectList.splice(index, 1);
+		}
+	}
+
+	/**
+	 * Removes items that match the predicate with an optional callback to run on removal.
+	 */
+	prune(predicate: (obj: ScreenObject) => boolean, onRemove?: (obj: ScreenObject) => void) {
+		for (let i = this._screenObjectList.length - 1; i >= 0; i--) {
+			const obj = this._screenObjectList[i];
+			if (predicate(obj)) {
+				if (onRemove) onRemove(obj);
+				this._screenObjectList.splice(i, 1);
+			}
 		}
 	}
 
 	/**
 	 * Removes all objects from the screen.
-	 * Useful when changing scenes or performing a 'Hard Reset'.
 	 */
 	clear() {
-		this._list = [];
+		this._screenObjectList = [];
 	}
 }

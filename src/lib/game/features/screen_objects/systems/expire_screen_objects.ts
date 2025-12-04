@@ -8,16 +8,9 @@ export class ScreenObjectLifecycleSystem extends ThrottledSystem {
 	}
 
 	protected runThrottled() {
-		const objects = this.state.screenObjects;
-
-		// iterate backwards for safe removal
-		for (let i = objects.list.length - 1; i >= 0; i--) {
-			const obj = objects.list[i];
-
-			if (obj.isExpired) {
-				obj.onExpire(this.state);
-				this.state.screenObjects.remove(obj);
-			}
-		}
+		this.state.screenObjects.prune(
+			(obj) => obj.isExpired,
+			(obj) => obj.onExpire(this.state)
+		);
 	}
 }

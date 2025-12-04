@@ -11,7 +11,7 @@ export abstract class ScreenObject {
 
 	/**
 	 * Creates a new screen object.
-	 * * @param x_pos Horizontal position as a percentage of the screen width.
+	 * @param x_pos Horizontal position as a percentage of the screen width.
 	 * @param y_pos Vertical position as a percentage of the screen height.
 	 */
 	constructor(x_pos: number, y_pos: number) {

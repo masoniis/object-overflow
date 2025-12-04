@@ -8,11 +8,12 @@ export class EffectFactory {
 	 */
 	static createRandomTemporaryEffect(): Effect {
 		const DURATION = 10000;
+		const uniqueId = crypto.randomUUID();
 
 		const generators: (() => Effect)[] = [
 			() =>
 				new ProductionMultiplierEffect({
-					id: 'golden_production_boost',
+					id: `random_prod_effect_${uniqueId}`,
 					name: 'Golden Production Boost',
 					description: 'Boosts production by 2x for 10 seconds!',
 					duration: DURATION,

@@ -32,8 +32,7 @@ export abstract class Upgrade {
 	isPurchased = $state(false);
 
 	/**
-	 * The core logic of the upgrade.
-	 * This runs immediately upon purchase and whenever the game loads an upgrade.
+	 * The core logic on how to apply the upgrade.
 	 */
 	abstract applyEffect(gameState: GameState): void;
 
