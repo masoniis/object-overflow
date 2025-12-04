@@ -39,6 +39,6 @@
 		"vitest": "^4.0.15"
 	},
 	"resolutions": {
-    "estree-walker": "npm:@benpsnyder/estree-walker@3.0.3"
-  }
+		"estree-walker": "npm:@benpsnyder/estree-walker@3.0.3"
+	}
 }
