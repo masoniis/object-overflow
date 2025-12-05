@@ -154,6 +154,15 @@ export class GameState {
 		}, 1);
 	}
 
+	get totalObjectProduction(): number {
+		return this._producers.reduce((total, producer) => {
+			if (producer.outputResourceId === 'object') {
+				return total + producer.totalProduction(this);
+			}
+			return total;
+		}, 0);
+	}
+
 	// INFO: -----------------------------------
 	//          screen-object management
 	// -----------------------------------------

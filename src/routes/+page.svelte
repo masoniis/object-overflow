@@ -32,6 +32,9 @@
 		<h1 class="self-center">
 			You have <span class="font-bold">{Math.floor(gameState.objects)}</span> objects!
 		</h1>
+		<p class="self-center">
+			Producing <span class="font-bold">{gameState.totalObjectProduction.toFixed(2)}</span> objects/second
+		</p>
 
 		<div>
 			<button onclick={() => gameState.modifyResource('object', gameState.manualClickPower)}
