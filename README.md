@@ -16,19 +16,25 @@ The terminal will give you information regarding the port that the website can b
 
 ## Design patterns
 
-1. **Singleton pattern** for `GameState`.
-   The state of the game for tracking currency uses the singleton pattern to ensure that there is only one global state that represents progress. This is used for a variety of things, such as UI components, that often read the singleton state to determine their screen values.
+### 1. **Singleton pattern** for `GameState`
 
-2. **Strategy pattern** on `Tickable`
-   The game engine manages ticks which are simply an interval of time since the previous frame. It also holds a set of objects that implement the Tickable strategy, and when a new tick comes, it calls the `tick` method on all classes loaded as systems in the engine. This is useful for things like updating currency/resources based on the time passed.
+The entire state of the game for uses the singleton pattern to ensure that there is only one global state that represents progress, currency, and resources. This is used for a variety of things, such as UI components, that often read the singleton state to determine their screen values.
 
-3. **Factory method pattern** on `Effect`s. Effects and construction is managed by the random factory.
+### 2. **Strategy pattern** on `Tickable`
 
-4. **Template Method pattern** on `Upgrade`s
-   The `Upgrade` abstract class defines a `purchase` method that acts as a template for purchasing an upgrade. It handles the common logic of checking the cost and deducting it from the game state. It then calls an abstract `onPurchase` method, which is implemented by each concrete upgrade subclass to apply its specific effect. This allows for code reuse while letting subclasses define their unique behavior.
+The game engine manages ticks which are simply an interval of time since the previous frame. It also holds a set of objects that implement the Tickable strategy, and when a new tick comes, it calls the `tick` method on all classes loaded as systems in the engine. This is useful for things like updating currency/resources based on the time passed.
 
-5. **Command pattern** for `ScreenObject`s
-   The `ScreenObject` abstract class defines an `onClick` method that concrete implementations like `GoldenObject` and `NefariousObject` must implement. This `onClick` method encapsulates the specific action to be performed when the object is clicked, effectively acting as a command. The `ClickableObjectLayer` invokes this command without needing to know the details of each object's action, thus decoupling the invoker from the specific operation.
+### 3. **Factory method pattern** on `Effect`s
+
+Effects and construction is managed by the random factory.
+
+### 4. **Template Method pattern** on `Upgrade`s
+
+The `Upgrade` abstract class defines a `purchase` method that acts as a template for purchasing an upgrade. It handles the common logic of checking the cost and deducting it from the game state. It then calls an abstract `onPurchase` method, which is implemented by each concrete upgrade subclass to apply its specific effect. This allows for code reuse while letting subclasses define their unique behavior.
+
+### 5. **Command pattern** for `ScreenObject`s
+
+The `ScreenObject` abstract class defines an `onClick` method that concrete implementations like `GoldenObject` and `NefariousObject` must implement. This `onClick` method encapsulates the specific action to be performed when the object is clicked, effectively acting as a command. The `ClickableObjectLayer` invokes this command without needing to know the details of each object's action, thus decoupling the invoker from the specific operation.
 
 - The **command** is the `onClick` method of the command object (`ScreenObject` subclasses).
 - The **receiver** is `GameState` (while typically receiver is a part of the command object set during construction, we pass it in.

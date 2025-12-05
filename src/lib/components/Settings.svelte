@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Modal from '$lib/components/Modal.svelte';
+	import Modal from '$lib/components/reusable/Modal.svelte';
 	import { GameState } from '$lib/game/core/game_state.svelte';
 
 	let { isOpen = $bindable() }: { isOpen: boolean } = $props();
