@@ -1,6 +1,6 @@
 import { System } from '../../core/engine/system/system.ts';
-import { ResourceIds } from '$lib/game/core/state/constants';
 import { ProductionMultiplierEffect } from '../effects/definitions/production_multiplier.ts';
+import { PlayerResource } from '../player/player_resource.ts';
 
 export class ProduceCurrencySystem extends System {
 	tick(delta_seconds: number) {
@@ -27,6 +27,6 @@ export class ProduceCurrencySystem extends System {
 		rate *= multiplier;
 
 		// update global state
-		this.state.modifyResource(ResourceIds.Currency, rate * delta_seconds);
+		this.state.modifyResource(PlayerResource.Currency, rate * delta_seconds);
 	}
 }

@@ -1,5 +1,5 @@
 import type { Upgrade, UpgradeSaveData } from './upgrade.svelte';
-import type { Savable } from '$lib/game/core/save/savable';
+import type { Savable } from '$lib/game/features/persistence/savable';
 import type { GameState } from '$lib/game/core/state/game_state.svelte';
 import { INITIAL_UPGRADES } from './upgrade_data';
 

@@ -1,7 +1,7 @@
 import type { Effect, EffectSaveData } from './effect.svelte';
 import { ProductionMultiplierEffect } from './definitions/production_multiplier';
 import type { GameState } from '$lib/game/core/state/game_state.svelte';
-import type { Savable } from '$lib/game/core/save/savable';
+import type { Savable } from '$lib/game/features/persistence/savable';
 import { EffectFactory } from './effect_factory';
 
 export type EffectManagerSaveData = EffectSaveData[];

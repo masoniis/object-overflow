@@ -1,4 +1,4 @@
-import { ResourceIds } from '$lib/game/core/state/constants';
+import { PlayerResource } from '$lib/game/features/player/player_resource';
 import type { GameState } from '$lib/game/core/state/game_state.svelte';
 import type { UpgradeRequirement } from './requirements/upgrade_requirement';
 
@@ -50,7 +50,7 @@ export abstract class Upgrade {
 			return false;
 		}
 
-		const success = gameState.tryTransaction(ResourceIds.Currency, this.cost);
+		const success = gameState.tryTransaction(PlayerResource.Currency, this.cost);
 		if (success) {
 			this.isPurchased = true;
 			this.applyEffect(gameState);

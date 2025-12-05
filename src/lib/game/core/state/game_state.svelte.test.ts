@@ -1,7 +1,7 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { GameState, type GameStateDependencies } from './game_state.svelte';
-import { ResourceIds } from './constants';
+import { PlayerResource } from '../../features/player/player_resource';
 
 // mock all managers for testing
 const mockSaveManager = {
@@ -130,12 +130,12 @@ describe('GameState', () => {
 			const initialObjects = mockPlayerStatsManager.objects;
 
 			// add currency
-			gameState.modifyResource(ResourceIds.Currency, 50);
+			gameState.modifyResource(PlayerResource.Currency, 50);
 			expect(mockPlayerStatsManager.addObjects).toHaveBeenCalledWith(50);
 			expect(mockPlayerStatsManager.objects).toBe(initialObjects + 50);
 
 			// subtract currency
-			gameState.modifyResource(ResourceIds.Currency, -10);
+			gameState.modifyResource(PlayerResource.Currency, -10);
 			expect(mockPlayerStatsManager.addObjects).toHaveBeenCalledWith(-10);
 			expect(mockPlayerStatsManager.objects).toBe(initialObjects + 40);
 		});
@@ -153,11 +153,11 @@ describe('GameState', () => {
 		});
 
 		it('should warn and do nothing for non-finite amounts in modifyResource', () => {
-			gameState.modifyResource(ResourceIds.Currency, Infinity);
+			gameState.modifyResource(PlayerResource.Currency, Infinity);
 			expect(console.warn).toHaveBeenCalled();
 			expect(mockPlayerStatsManager.addObjects).not.toHaveBeenCalled();
 
-			gameState.modifyResource(ResourceIds.Currency, NaN);
+			gameState.modifyResource(PlayerResource.Currency, NaN);
 			expect(console.warn).toHaveBeenCalledTimes(2);
 			expect(mockPlayerStatsManager.addObjects).not.toHaveBeenCalled();
 		});
@@ -170,7 +170,7 @@ describe('GameState', () => {
 
 		it('should correctly get the amount of the currency resource', () => {
 			mockPlayerStatsManager.objects = 1234;
-			expect(gameState.getResourceAmount(ResourceIds.Currency)).toBe(1234);
+			expect(gameState.getResourceAmount(PlayerResource.Currency)).toBe(1234);
 		});
 
 		it('should correctly get the amount of a producer resource', () => {
@@ -197,7 +197,7 @@ describe('GameState', () => {
 
 		it('should return true and deduct cost if resource is sufficient', () => {
 			const cost = 30;
-			const success = gameState.tryTransaction(ResourceIds.Currency, cost);
+			const success = gameState.tryTransaction(PlayerResource.Currency, cost);
 
 			expect(success).toBe(true);
 			// check that the resource was actually deducted
@@ -207,7 +207,7 @@ describe('GameState', () => {
 
 		it('should return false and not deduct cost if resource is insufficient', () => {
 			const cost = 150;
-			const success = gameState.tryTransaction(ResourceIds.Currency, cost);
+			const success = gameState.tryTransaction(PlayerResource.Currency, cost);
 
 			expect(success).toBe(false);
 			// check that the resource count remains unchanged

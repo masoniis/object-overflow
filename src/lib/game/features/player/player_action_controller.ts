@@ -1,6 +1,6 @@
 import type { GameState } from '$lib/game/core/state/game_state.svelte';
 import { FloatingText } from '../screen_objects/visual/floating_text';
-import { ResourceIds } from '../../core/state/constants';
+import { PlayerResource } from './player_resource';
 
 /**
  * A class for controlling game logic regarding player interactions.
@@ -14,7 +14,7 @@ export class PlayerActionController {
 	public clickMainObjective(x: number, y: number) {
 		const amount = this.state.playerStats.manualClickPower;
 
-		this.state.modifyResource(ResourceIds.Currency, amount);
+		this.state.modifyResource(PlayerResource.Currency, amount);
 
 		const text = new FloatingText(`+${amount}`, x, y);
 		this.state.screenObjects.add(text);

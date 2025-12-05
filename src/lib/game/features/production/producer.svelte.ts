@@ -1,4 +1,4 @@
-import { ResourceIds } from '$lib/game/core/state/constants';
+import { PlayerResource } from '$lib/game/features/player/player_resource';
 import type { GameState } from '$lib/game/core/state/game_state.svelte';
 
 export interface ProducerSaveData {
@@ -43,8 +43,8 @@ export class Producer {
 		name,
 		cost,
 		production,
-		outputResourceId = ResourceIds.Currency,
-		costResourceId = ResourceIds.Currency
+		outputResourceId = PlayerResource.Currency,
+		costResourceId = PlayerResource.Currency
 	}: ProducerDefinition) {
 		this.id = id;
 		this.name = name;

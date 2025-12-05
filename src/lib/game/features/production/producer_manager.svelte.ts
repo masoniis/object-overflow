@@ -1,5 +1,6 @@
-import type { Savable } from '$lib/game/core/save/savable';
-import { ResourceIds } from '$lib/game/core/state/constants';
+import type { Savable } from '$lib/game/features/persistence/savable';
+import { PlayerResource } from '$lib/game/features/player/player_resource';
+import type { ResourceProvider } from '$lib/game/core/state/resource_provider';
 import type { Producer, ProducerSaveData } from './producer.svelte';
 import { INITIAL_PRODUCERS } from './producer_data';
 
@@ -8,7 +9,7 @@ export type ProducerManagerSaveData = {
 	data: ProducerSaveData;
 }[];
 
-export class ProducerManager implements Savable {
+export class ProducerManager implements ResourceProvider, Savable {
 	private _producerList: Producer[] = $state([...INITIAL_PRODUCERS]);
 
 	// INFO: -----------------
@@ -37,11 +38,30 @@ export class ProducerManager implements Savable {
 
 	public computeTotalProduction(globalProductionMultiplier: number): number {
 		return this.producerList.reduce((total, producer) => {
-			if (producer.outputResourceId === ResourceIds.Currency) {
+			if (producer.outputResourceId === PlayerResource.Currency) {
 				return total + producer.totalProduction(globalProductionMultiplier);
 			}
 			return total;
 		}, 0);
+	}
+
+	// INFO: ---------------------------------
+	//         resource-provider logic
+	// ---------------------------------------
+
+	ownsResource(id: string): boolean {
+		return this.getById(id) !== undefined;
+	}
+
+	getResourceAmount(id: string): number {
+		return this.getById(id)?.count ?? 0;
+	}
+
+	modifyResource(id: string, amount: number): void {
+		const producer = this.getById(id);
+		if (producer) {
+			producer.count += amount;
+		}
 	}
 
 	// INFO: --------------------

@@ -1,4 +1,6 @@
-import type { Savable } from '../../core/save/savable';
+import { PlayerResource } from '$lib/game/features/player/player_resource';
+import type { ResourceProvider } from '$lib/game/core/state/resource_provider';
+import type { Savable } from '../persistence/savable';
 
 export interface PlayerStatsSaveData {
 	mainCurrency: number;
@@ -7,7 +9,7 @@ export interface PlayerStatsSaveData {
 	// state from other stuff like upgrades
 }
 
-export class PlayerStatsManager implements Savable {
+export class PlayerStatsManager implements ResourceProvider, Savable {
 	public static readonly SAVE_KEY = 'player_stats';
 	private static DEFAULT_MANUAL_CLICK_POWER = 1;
 
@@ -55,6 +57,25 @@ export class PlayerStatsManager implements Savable {
 	 */
 	addClickPower(amount: number) {
 		this._manualClickPower += amount;
+	}
+
+	// INFO: ---------------------------------
+	//         resource provider logic
+	// ---------------------------------------
+
+	ownsResource(id: string): boolean {
+		return Object.values(PlayerResource).includes(id as PlayerResource);
+	}
+
+	getResourceAmount(id: string): number {
+		if (id === PlayerResource.Currency) return this.objects;
+		return 0;
+	}
+
+	modifyResource(id: string, amount: number): void {
+		if (id === PlayerResource.Currency) {
+			this.addMainCurrency(amount);
+		}
 	}
 
 	// INFO: -----------------------

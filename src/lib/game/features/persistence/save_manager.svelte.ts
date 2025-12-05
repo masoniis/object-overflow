@@ -1,4 +1,4 @@
-import type { GameState } from '../state/game_state.svelte';
+import type { GameState } from '$lib/game/core/state/game_state.svelte';
 import type { Savable } from './savable';
 
 export class SaveManager<TContext = GameState> {

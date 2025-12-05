@@ -12,3 +12,12 @@ export interface Savable<TData = unknown, TContext = any> {
 	 */
 	reset?(): void;
 }
+
+export function isSavable(obj: any): obj is Savable<unknown, unknown> {
+	return (
+		obj &&
+		typeof obj.save === 'function' &&
+		typeof obj.load === 'function' &&
+		typeof obj.saveKey === 'string'
+	);
+}

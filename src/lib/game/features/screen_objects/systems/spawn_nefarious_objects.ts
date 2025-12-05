@@ -1,7 +1,7 @@
 import { RandomTriggerSystem } from '../../../core/engine/system/random_trigger_system';
 import { NefariousObject } from '$lib/game/features/screen_objects/interactive/nefarious_object';
 import type { GameState } from '$lib/game/core/state/game_state.svelte';
-import { ResourceIds } from '$lib/game/core/state/constants';
+import { PlayerResource } from '$lib/game/features/player/player_resource';
 
 export class SpawnNefariousObjectsSystem extends RandomTriggerSystem {
 	private static OBJECTS_LOST_ON_CLICK = 500;
@@ -19,7 +19,10 @@ export class SpawnNefariousObjectsSystem extends RandomTriggerSystem {
 		console.log('Nefarious object spawned!');
 
 		const onCollect = (game: GameState) => {
-			game.modifyResource(ResourceIds.Currency, -SpawnNefariousObjectsSystem.OBJECTS_LOST_ON_CLICK);
+			game.modifyResource(
+				PlayerResource.Currency,
+				-SpawnNefariousObjectsSystem.OBJECTS_LOST_ON_CLICK
+			);
 			console.log('Uh oh! Nefarious object clicked!');
 
 			// Spawn two more immediately on click

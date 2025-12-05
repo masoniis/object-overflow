@@ -1,4 +1,4 @@
-import { ResourceIds } from '$lib/game/core/state/constants';
+import { PlayerResource } from '$lib/game/features/player/player_resource';
 import { Producer } from './producer.svelte';
 
 export enum ProducerIds {
@@ -22,21 +22,21 @@ export const INITIAL_PRODUCERS = [
 		name: 'Basic Object',
 		cost: 10,
 		production: 1,
-		outputResourceId: ResourceIds.Currency
+		outputResourceId: PlayerResource.Currency
 	}),
 	new Producer({
 		id: ProducerIds.EpicObject,
 		name: 'Epic Object',
 		cost: 100,
 		production: 7,
-		outputResourceId: ResourceIds.Currency
+		outputResourceId: PlayerResource.Currency
 	}),
 	new Producer({
 		id: ProducerIds.SuperEpicObject,
 		name: 'Super Epic Object',
 		cost: 1000,
 		production: 20,
-		outputResourceId: ResourceIds.Currency
+		outputResourceId: PlayerResource.Currency
 	}),
 	new Producer({
 		id: ProducerIds.BasicFactory,

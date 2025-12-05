@@ -1,4 +1,4 @@
-import { SaveManager } from '../core/save/save_manager.svelte';
+import { SaveManager } from '../features/persistence/save_manager.svelte';
 import {
 	PlayerStatsManager,
 	type PlayerStatsSaveData
