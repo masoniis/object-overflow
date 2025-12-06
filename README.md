@@ -44,3 +44,7 @@ The `ScreenObject` abstract class defines an `onClick` method that concrete impl
 ### 6. **Iterator pattern** for `Managers`s (eg `UpgradeManager`)
 
 Many of the "manager" classes hold a list of elements inside. We implemented iterator on these classes to enable traversal and access without exposing the underlying information.
+
+### 7. **Observer pattern**
+
+Svelte is a big implicit observer pattern with state reactivity
