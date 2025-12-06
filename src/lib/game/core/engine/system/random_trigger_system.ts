@@ -18,11 +18,6 @@ export abstract class RandomTriggerSystem extends System {
 		this.timeToNextTrigger = this.getRandomInterval();
 	}
 
-	/**
-	 * The logic to execute when the random timer fires.
-	 */
-	protected abstract onTrigger(): void;
-
 	tick(delta_seconds: number): void {
 		this.timeToNextTrigger -= delta_seconds;
 
@@ -36,4 +31,9 @@ export abstract class RandomTriggerSystem extends System {
 	private getRandomInterval(): number {
 		return Math.random() * (this.maxSeconds - this.minSeconds) + this.minSeconds;
 	}
+
+	/**
+	 * The logic to execute when the random timer fires.
+	 */
+	protected abstract onTrigger(): void;
 }

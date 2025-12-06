@@ -1,25 +1,16 @@
-import { System } from '../../core/engine/system/system';
+import { ThrottledSystem } from '$lib/game/core/engine/system';
 import type { GameState } from '$lib/game/core/state/game_state.svelte';
 
-export class AutosaveSystem extends System {
-	private time_since_last_save = 0;
+export class AutosaveSystem extends ThrottledSystem {
+	private static SAVE_INTERVAL_SECONDS = 60;
 
-	constructor(
-		protected state: GameState,
-		private save_interval: number = 60
-	) {
-		super(state);
-		this.save_interval = save_interval;
-		console.log(`💾 Autosave set (${this.save_interval} seconds)`);
+	constructor(state: GameState) {
+		super(state, 1 / AutosaveSystem.SAVE_INTERVAL_SECONDS);
+		console.log(`💾 Autosave set (${AutosaveSystem.SAVE_INTERVAL_SECONDS} seconds)`);
 	}
 
-	tick(dt: number) {
-		this.time_since_last_save += dt;
-
-		if (this.time_since_last_save >= this.save_interval) {
-			console.log('💾 Performing autosave');
-			this.state.saves.save();
-			this.time_since_last_save = 0;
-		}
+	protected runThrottled() {
+		console.log('💾 Performing autosave');
+		this.state.saves.save();
 	}
 }

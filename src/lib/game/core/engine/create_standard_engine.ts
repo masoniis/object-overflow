@@ -12,13 +12,13 @@ export function createStandardEngine(state: GameState): GameEngine {
 	const engine = new GameEngine();
 
 	engine
+		.addSystem(new ProcessEffectsSystem(state))
 		.addSystem(new ProduceCurrencySystem(state))
 		.addSystem(new ProduceProducersSystem(state))
-		.addSystem(new AutosaveSystem(state))
-		.addSystem(new ProcessEffectsSystem(state))
-		.addSystem(new ScreenObjectLifecycleSystem(state))
 		.addSystem(new SpawnNefariousObjectsSystem(state))
-		.addSystem(new SpawnGoldenObjectsSystem(state));
+		.addSystem(new SpawnGoldenObjectsSystem(state))
+		.addSystem(new ScreenObjectLifecycleSystem(state))
+		.addSystem(new AutosaveSystem(state));
 
 	return engine;
 }

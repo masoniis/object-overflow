@@ -4,18 +4,24 @@ import type { GameState } from '$lib/game/core/state/game_state.svelte';
 import { EffectFactory } from '../../effects/effect_factory';
 
 export class SpawnGoldenObjectsSystem extends RandomTriggerSystem {
+	private static readonly MIN_SPAWN_INTERVAL_SEC = 15;
+	private static readonly MAX_SPAWN_INTERVAL_SEC = 29;
+
 	constructor(state: GameState) {
-		// random trigger of 30s to 90s to the parent
-		super(state, 3, 9);
+		super(
+			state,
+			SpawnGoldenObjectsSystem.MIN_SPAWN_INTERVAL_SEC,
+			SpawnGoldenObjectsSystem.MAX_SPAWN_INTERVAL_SEC
+		);
 	}
 
 	protected onTrigger(): void {
 		console.log('Golden object spawned!');
 
 		const onCollect = (game: GameState) => {
-			const effect = EffectFactory.createRandomTemporaryEffect();
+			const effect = EffectFactory.createRandomTemporaryPositiveEffect();
 			console.log('Applying random effect:', effect.name);
-			game.addEffect(effect);
+			game.effects.add(effect);
 		};
 
 		const golden = new GoldenObject(onCollect);

@@ -1,5 +1,3 @@
-import type { GameState } from '$lib/game/core/state/game_state.svelte';
-
 export interface EffectConfig {
 	id: string;
 	name: string;
@@ -28,7 +26,7 @@ export abstract class Effect<TSaveData = void> {
 	/**
 	 * The timestamp when the effect was applied.
 	 */
-	appliedAt = $state(Date.now());
+	public readonly appliedAt = Date.now();
 
 	constructor({ id, name, description, duration, shouldBeSaved = true }: EffectConfig) {
 		this.id = id;
@@ -37,22 +35,6 @@ export abstract class Effect<TSaveData = void> {
 		this.duration = duration;
 		this.shouldBeSaved = shouldBeSaved;
 		this.appliedAt = Date.now();
-	}
-
-	/**
-	 * A function called when an effect is first added too the game.
-	 * @param gameState The game state to modify.
-	 */
-	onApply(_gameState: GameState): void {
-		// default to no effect
-	}
-
-	/**
-	 * A function called when an effect is removed (expired or otherwise).
-	 * @param gameState The game state to modify.
-	 */
-	onRemove(_gameState: GameState): void {
-		// default to no effect
 	}
 
 	/**

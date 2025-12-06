@@ -15,7 +15,7 @@ export class GlobalProductionMultiplierUpgrade extends Upgrade {
 	}
 
 	applyEffect(gameState: GameState): void {
-		gameState.addEffect(
+		gameState.effects.add(
 			EffectFactory.createPersistentMultiplierEffect(
 				'prod-mult-from-' + this.id,
 				this.name,

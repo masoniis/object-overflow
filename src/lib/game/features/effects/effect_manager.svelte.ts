@@ -1,4 +1,4 @@
-import type { Effect, EffectSaveData } from './effect.svelte';
+import type { Effect, EffectSaveData } from './effect';
 import { ProductionMultiplierEffect } from './definitions/production_multiplier';
 import type { GameState } from '$lib/game/core/state/game_state.svelte';
 import type { Savable } from '$lib/game/features/persistence/savable';
@@ -13,33 +13,31 @@ export class EffectManager implements Savable<EffectManagerSaveData, GameState> 
 	//         getters
 	// -----------------------
 
-	get effectList() {
-		return this._effectList;
+	get length() {
+		return this._effectList.length;
 	}
 
 	[Symbol.iterator]() {
-		return this.effectList[Symbol.iterator]();
+		return this._effectList[Symbol.iterator]();
 	}
 
 	// INFO: -------------------
 	//         modifiers
 	// -------------------------
 
-	add(effect: Effect, context: GameState) {
-		const existing = this.effectList.find((e) => e.id === effect.id);
+	add(effect: Effect) {
+		const existing = this._effectList.find((e) => e.id === effect.id);
 		if (existing) {
 			return;
 		}
 
 		this._effectList.push(effect);
-		effect.onApply(context);
 	}
 
-	remove(effect: Effect, context: GameState) {
+	remove(effect: Effect) {
 		const index = this._effectList.indexOf(effect);
 		if (index > -1) {
 			this._effectList.splice(index, 1);
-			effect.onRemove(context);
 		}
 	}
 
@@ -81,13 +79,13 @@ export class EffectManager implements Savable<EffectManagerSaveData, GameState> 
 		this._effectList = [];
 	}
 
-	public load(data: EffectManagerSaveData, context: GameState): void {
+	public load(data: EffectManagerSaveData): void {
 		// load transient effects
 		// persistent effects will be re-added by their owners (e.g., upgrades on load)
 		for (const entry of data) {
 			const effect = EffectFactory.fromSaveData(entry);
 			if (effect) {
-				this.add(effect, context);
+				this.add(effect);
 			}
 		}
 	}

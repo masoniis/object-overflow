@@ -14,7 +14,7 @@ export abstract class ThrottledSystem extends System {
 	 */
 	constructor(state: GameState, frequencyHz: number) {
 		super(state);
-		// convert frequency (8 Hz) to interval (0.125 seconds)
+		// convert frequency (eg 8 Hz) to interval (0.125 seconds)
 		this.updateInterval = 1.0 / frequencyHz;
 	}
 
@@ -30,8 +30,8 @@ export abstract class ThrottledSystem extends System {
 			// any "overflow" time, keeping the average frequency accurate.
 			this.timeAccumulator -= this.updateInterval;
 
-			// If huge lag causes accumulation to be > interval * 2,
-			// just hard reset to avoid a "death loop" of catch-up calls.
+			// if huge lag causes accumulation to be > interval * 2,
+			// just hard reset to avoid spamming a ton of catch up calls
 			if (this.timeAccumulator > this.updateInterval) {
 				this.timeAccumulator = 0;
 			}

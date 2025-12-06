@@ -5,7 +5,7 @@ import { PlayerStatsManager } from '$lib/game/features/player/player_stats_manag
 import { UpgradeManager } from '$lib/game/features/upgrades/upgrade_manager.svelte';
 import { ScreenObjectManager } from '$lib/game/features/screen_objects/screen_object_manager.svelte';
 import { isResourceProvider, type ResourceProvider } from './resource_provider';
-import { isSavable } from '../../features/persistence/savable';
+import { isSavable, type Savable } from '../../features/persistence/savable';
 import { SaveManager } from '$lib/game/features/persistence/save_manager.svelte';
 
 /**
@@ -20,6 +20,8 @@ export interface GameStateDependencies {
 	effects?: EffectManager;
 	screenObjects?: ScreenObjectManager;
 }
+
+type GameStateSystem = ResourceProvider | Savable | object;
 
 /**
  * Game state acts as the core orchestrator of the application, wrapping all dependencies
@@ -55,8 +57,6 @@ export class GameState {
 	 * @param deps Optional dependencies for injection.
 	 */
 	public constructor(deps: GameStateDependencies = {}) {
-		console.log('Initializing GameState with dependencies...');
-
 		this.saves = deps.saves ?? new SaveManager();
 
 		this.playerStats = deps.playerStats ?? new PlayerStatsManager();
@@ -75,15 +75,12 @@ export class GameState {
 		this.register(this.effects);
 		this.register(this.screenObjects);
 		this.register(this.actions);
-
-		console.log('GameState initialized!');
 	}
-
 	/**
 	 * Inspects a manager and adds it to the correct internal lists
 	 * based on what methods it implements.
 	 */
-	private register(system: any) {
+	private register(system: GameStateSystem) {
 		if (isResourceProvider(system)) {
 			this.resourceProviders.push(system);
 		}
@@ -104,6 +101,11 @@ export class GameState {
 	 * Modifies a target resource ID by a target amount.
 	 */
 	public modifyResource(id: string, amount: number) {
+		if (!Number.isFinite(amount)) {
+			console.warn(`[GameState] Invalid amount for resource modification: ${amount}`);
+			return;
+		}
+
 		// find first provider that claims the resource id
 		const provider = this.resourceProviders.find((p) => p.ownsResource(id));
 
@@ -119,7 +121,11 @@ export class GameState {
 	 */
 	public getResourceAmount(id: string): number {
 		const provider = this.resourceProviders.find((p) => p.ownsResource(id));
-		return provider ? provider.getResourceAmount(id) : 0;
+		if (!provider) {
+			console.warn(`[GameState] No provider found for resource: ${id}`);
+			return 0;
+		}
+		return provider.getResourceAmount(id);
 	}
 
 	/**
@@ -141,13 +147,5 @@ export class GameState {
 	get totalObjectProduction(): number {
 		const globalProductionMultiplier = this.effects.getGlobalProductionMultiplier();
 		return this.producers.computeTotalProduction(globalProductionMultiplier);
-	}
-
-	// delegation for effects
-	addEffect(effect: any) {
-		this.effects.add(effect, this);
-	}
-	removeEffect(effect: any) {
-		this.effects.remove(effect, this);
 	}
 }

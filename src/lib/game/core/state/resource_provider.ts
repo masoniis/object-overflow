@@ -1,4 +1,4 @@
-/** An interface for classes to implement that provider
+/** An interface for classes to implement that provide
  *  particular resources to the global game state
  */
 export interface ResourceProvider {

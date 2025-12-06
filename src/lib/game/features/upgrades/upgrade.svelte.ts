@@ -15,11 +15,11 @@ export interface UpgradeSaveData {
 }
 
 export abstract class Upgrade {
-	id: string;
-	name: string;
-	description: string;
-	cost: number;
-	requirements: UpgradeRequirement[] = [];
+	public readonly id: string;
+	public readonly name: string;
+	public readonly description: string;
+	public readonly cost: number;
+	public readonly requirements: UpgradeRequirement[] = [];
 
 	constructor({ id, name, description, cost, requirements = [] }: UpgradeConfig) {
 		this.id = id;
@@ -29,7 +29,11 @@ export abstract class Upgrade {
 		this.requirements = requirements;
 	}
 
-	isPurchased = $state(false);
+	private _isPurchased = $state(false);
+
+	get isPurchased() {
+		return this._isPurchased;
+	}
 
 	/**
 	 * The core logic on how to apply the upgrade.
@@ -40,19 +44,19 @@ export abstract class Upgrade {
 	 * Checks if the requirements of an upgrade are met.
 	 */
 	requirementsMet(gameState: GameState): boolean {
-		if (this.isPurchased) return false;
+		if (this._isPurchased) return false;
 		return this.requirements.every((req) => req.isMet(gameState));
 	}
 
 	purchase(gameState: GameState): boolean {
-		if (this.isPurchased) {
+		if (this._isPurchased) {
 			console.warn(`Upgrade ${this.id} has already been purchased.`);
 			return false;
 		}
 
 		const success = gameState.tryTransaction(PlayerResource.Currency, this.cost);
 		if (success) {
-			this.isPurchased = true;
+			this._isPurchased = true;
 			this.applyEffect(gameState);
 			console.log(`Upgrade ${this.id} purchased.`);
 			return true;
@@ -62,10 +66,10 @@ export abstract class Upgrade {
 	}
 
 	save(): UpgradeSaveData {
-		return { isPurchased: this.isPurchased };
+		return { isPurchased: this._isPurchased };
 	}
 
 	load(data: UpgradeSaveData) {
-		this.isPurchased = data.isPurchased ?? false;
+		this._isPurchased = data.isPurchased ?? false;
 	}
 }

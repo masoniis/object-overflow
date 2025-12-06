@@ -20,7 +20,7 @@ export class ProducerProductionMultiplierUpgrade extends Upgrade {
 	applyEffect(gameState: GameState): void {
 		const producer = gameState.producers.find((p: Producer) => p.id === this.producerId);
 		if (producer) {
-			producer.multiplier *= this.multiplier;
+			producer.multiplyProduction(this.multiplier);
 		} else {
 			console.warn(
 				`ProducerProductionMultiplierUpgrade: Producer with id ${this.producerId} not found.`

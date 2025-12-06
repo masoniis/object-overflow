@@ -35,8 +35,8 @@ export class Producer {
 	//         state
 	// ---------------------
 
-	public count = $state(0);
-	public multiplier = $state(1);
+	private _count = $state(0);
+	private _multiplier = $state(1);
 
 	constructor({
 		id,
@@ -58,29 +58,45 @@ export class Producer {
 	//         getters
 	// -----------------------
 
+	get count() {
+		return this._count;
+	}
+
+	get multiplier() {
+		return this._multiplier;
+	}
+
 	/**
 	 * Calculates the current purchase price based on exponential scaling.
 	 */
 	get currentCost(): number {
-		return Math.floor(this.baseCost * Math.pow(1.15, this.count));
+		return Math.floor(this.baseCost * Math.pow(1.15, this._count));
 	}
 
 	/**
 	 * Calculates production per tick/second for this specific producer type.
 	 */
 	public totalProduction(productionMultiplier: number): number {
-		return this.baseProduction * this.count * this.multiplier * productionMultiplier;
+		return this.baseProduction * this._count * this._multiplier * productionMultiplier;
 	}
 
 	// INFO: -----------------
 	//         actions
 	// -----------------------
 
+	public addCount(amount: number) {
+		this._count += amount;
+	}
+
+	public multiplyProduction(factor: number) {
+		this._multiplier *= factor;
+	}
+
 	public buy(gameState: GameState): void {
 		const success = gameState.tryTransaction(this.costResourceId, this.currentCost);
 
 		if (success) {
-			this.count += 1;
+			this._count += 1;
 		}
 	}
 
@@ -89,14 +105,14 @@ export class Producer {
 	// ----------------------------
 
 	public save(): ProducerSaveData {
-		return { count: this.count };
+		return { count: this._count };
 	}
 
 	public reset() {
-		this.multiplier = 1;
+		this._multiplier = 1;
 	}
 
 	public load(data: ProducerSaveData): void {
-		this.count = data.count ?? 0;
+		this._count = data.count ?? 0;
 	}
 }

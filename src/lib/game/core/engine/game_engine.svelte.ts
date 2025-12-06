@@ -85,7 +85,7 @@ export class GameEngine {
 
 		// calculate delta time
 		const currentTime = performance.now();
-		let delta_seconds = (currentTime - this.lastTime) / 1000;
+		let delta_seconds = (currentTime - this.lastTime) / 1000; // millis -> seconds
 
 		if (delta_seconds > GameEngine.MAX_TICK_DELTA_TIME) {
 			delta_seconds = GameEngine.MAX_TICK_DELTA_TIME;

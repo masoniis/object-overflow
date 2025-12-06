@@ -16,8 +16,8 @@ export class ProducerManager implements ResourceProvider, Savable {
 	//         getters
 	// -----------------------
 
-	get producerList() {
-		return this._producerList;
+	get length() {
+		return this._producerList.length;
 	}
 
 	public getById(id: string): Producer | undefined {
@@ -37,7 +37,7 @@ export class ProducerManager implements ResourceProvider, Savable {
 	}
 
 	public computeTotalProduction(globalProductionMultiplier: number): number {
-		return this.producerList.reduce((total, producer) => {
+		return this._producerList.reduce((total, producer) => {
 			if (producer.outputResourceId === PlayerResource.Currency) {
 				return total + producer.totalProduction(globalProductionMultiplier);
 			}
@@ -60,7 +60,7 @@ export class ProducerManager implements ResourceProvider, Savable {
 	modifyResource(id: string, amount: number): void {
 		const producer = this.getById(id);
 		if (producer) {
-			producer.count += amount;
+			producer.addCount(amount);
 		}
 	}
 
@@ -78,7 +78,7 @@ export class ProducerManager implements ResourceProvider, Savable {
 	}
 
 	reset(): void {
-		for (const producer of this.producerList) {
+		for (const producer of this._producerList) {
 			producer.reset();
 		}
 	}

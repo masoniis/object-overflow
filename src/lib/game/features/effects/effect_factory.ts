@@ -1,29 +1,32 @@
 import { ProductionMultiplierEffect } from './definitions/production_multiplier';
-import type { Effect } from './effect.svelte';
-import type { EffectSaveData } from './effect.svelte';
+import type { Effect, EffectSaveData } from './effect';
 
 export class EffectFactory {
+	private static MIN_POSITIVE_RANDOM_EFFECT_MULTIPLIER = 2;
+	private static MAX_POSITIVE_RANDOM_EFFECT_MULTIPLIER = 10;
+	private static DEFAULT_TEMPORARY_EFFECT_DURATION_MS = 10000;
+
 	/**
 	 * Creates a new random effect (for golden objects, events, etc)
 	 */
-	static createRandomTemporaryEffect(): Effect {
-		const DURATION = 10000;
+	static createRandomTemporaryPositiveEffect(): Effect {
+		const DURATION = EffectFactory.DEFAULT_TEMPORARY_EFFECT_DURATION_MS;
 		const uniqueId = crypto.randomUUID();
 
-		const generators: (() => Effect)[] = [
-			() =>
-				new ProductionMultiplierEffect({
-					id: `random_prod_effect_${uniqueId}`,
-					name: 'Golden Production Boost',
-					description: 'Boosts production by 2x for 10 seconds!',
-					duration: DURATION,
-					multiplier: 2.0,
-					shouldBeSaved: true
-				})
-		];
+		const min_mult = EffectFactory.MIN_POSITIVE_RANDOM_EFFECT_MULTIPLIER;
+		const max_mult = EffectFactory.MAX_POSITIVE_RANDOM_EFFECT_MULTIPLIER;
 
-		const generate = generators[Math.floor(Math.random() * generators.length)];
-		return generate();
+		// get a random mult between min and max
+		const multiplier = Math.floor(Math.random() * (max_mult - min_mult + 1)) + min_mult;
+
+		return new ProductionMultiplierEffect({
+			id: `random_prod_effect_${uniqueId}`,
+			name: 'Golden Production Boost',
+			description: `Boosts production by ${multiplier}x for ${DURATION / 1000} seconds!`,
+			duration: DURATION,
+			multiplier: multiplier,
+			shouldBeSaved: true
+		});
 	}
 
 	/**

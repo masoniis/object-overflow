@@ -23,13 +23,6 @@ export class UpgradeManager implements Savable<UpgradeManagerSaveData, GameState
 		return this._upgradeList.length;
 	}
 
-	/**
-	 * Find an upgrade by its unique ID.
-	 */
-	public getById(id: string): Upgrade | undefined {
-		return this._upgradeList.find((u) => u.id === id);
-	}
-
 	[Symbol.iterator]() {
 		return this._upgradeList[Symbol.iterator]();
 	}
@@ -40,6 +33,13 @@ export class UpgradeManager implements Savable<UpgradeManagerSaveData, GameState
 
 	public filter(predicate: (upgrade: Upgrade) => boolean): Upgrade[] {
 		return this._upgradeList.filter(predicate);
+	}
+
+	/**
+	 * Find an upgrade by its unique ID.
+	 */
+	public getById(id: string): Upgrade | undefined {
+		return this._upgradeList.find((u) => u.id === id);
 	}
 
 	// INFO: -----------------------

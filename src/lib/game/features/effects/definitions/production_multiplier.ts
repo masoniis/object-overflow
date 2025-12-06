@@ -1,4 +1,4 @@
-import { Effect, type EffectConfig } from '../effect.svelte';
+import { Effect, type EffectConfig } from '../effect';
 
 export interface ProductionEffectConfig extends EffectConfig {
 	multiplier: number;
