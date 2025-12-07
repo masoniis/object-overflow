@@ -1,6 +1,10 @@
 import { PlayerResource } from '$lib/game/features/player/player_resource';
 import { Producer } from './producer.svelte';
 
+export const ProducerConfig = {
+	costScaling: 1.15
+} as const;
+
 export enum ProducerIds {
 	BasicObject = 'basic_object',
 	EpicObject = 'epic_object',

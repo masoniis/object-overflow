@@ -1,5 +1,6 @@
 import { PlayerResource } from '$lib/game/features/player/player_resource';
 import type { GameState } from '$lib/game/core/state/game_state.svelte';
+import { ProducerConfig } from './producer_data';
 
 export interface ProducerSaveData {
 	count: number;
@@ -70,7 +71,7 @@ export class Producer {
 	 * Calculates the current purchase price based on exponential scaling.
 	 */
 	get currentCost(): number {
-		return Math.floor(this.baseCost * Math.pow(1.15, this._count));
+		return Math.floor(this.baseCost * Math.pow(ProducerConfig.costScaling, this._count));
 	}
 
 	/**

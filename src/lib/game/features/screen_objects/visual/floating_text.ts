@@ -1,7 +1,8 @@
 import { ScreenObject } from '../screen_object';
+import { ScreenObjectConfig } from '../screen_object_data';
 
 export class FloatingText extends ScreenObject {
-	duration = 1500;
+	duration = ScreenObjectConfig.FloatingText.spawnDuration;
 
 	constructor(
 		public text: string,

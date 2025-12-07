@@ -2,17 +2,14 @@ import { RandomTriggerSystem } from '../../../core/engine/system/random_trigger_
 import { NefariousObject } from '$lib/game/features/screen_objects/interactive/nefarious_object';
 import type { GameState } from '$lib/game/core/state/game_state.svelte';
 import { PlayerResource } from '$lib/game/features/player/player_resource';
+import { ScreenObjectConfig } from '../screen_object_data';
 
 export class SpawnNefariousObjectsSystem extends RandomTriggerSystem {
-	private static readonly MIN_SPAWN_INTERVAL_SEC = 12;
-	private static readonly MAX_SPAWN_INTERVAL_SEC = 21;
-	private static OBJECTS_LOST_ON_CLICK = 500;
-
 	constructor(state: GameState) {
 		super(
 			state,
-			SpawnNefariousObjectsSystem.MIN_SPAWN_INTERVAL_SEC,
-			SpawnNefariousObjectsSystem.MAX_SPAWN_INTERVAL_SEC
+			ScreenObjectConfig.NafariousObject.spawnMin,
+			ScreenObjectConfig.NafariousObject.spawnMax
 		);
 	}
 
@@ -26,11 +23,11 @@ export class SpawnNefariousObjectsSystem extends RandomTriggerSystem {
 		const onCollect = (game: GameState) => {
 			game.modifyResource(
 				PlayerResource.Currency,
-				-SpawnNefariousObjectsSystem.OBJECTS_LOST_ON_CLICK
+				-ScreenObjectConfig.NafariousObject.currencyLostOnClick
 			);
 			console.log('Uh oh! Nefarious object clicked!');
 
-			// Spawn two more immediately on click
+			// spawn two more immediately on click like a hydra
 			this.spawnNefariousObject();
 			this.spawnNefariousObject();
 		};

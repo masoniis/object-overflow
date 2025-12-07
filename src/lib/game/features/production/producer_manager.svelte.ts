@@ -10,7 +10,11 @@ export type ProducerManagerSaveData = {
 }[];
 
 export class ProducerManager implements ResourceProvider, Savable {
-	private _producerList: Producer[] = $state([...INITIAL_PRODUCERS]);
+	private _producerList: Producer[];
+
+	constructor(initialProducers: Producer[] = INITIAL_PRODUCERS) {
+		this._producerList = $state([...initialProducers]);
+	}
 
 	// INFO: -----------------
 	//         getters
