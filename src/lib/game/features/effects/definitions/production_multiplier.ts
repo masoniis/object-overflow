@@ -11,7 +11,10 @@ interface ProductionMultiplierSaveData {
 
 export class ProductionMultiplierEffect extends Effect<ProductionMultiplierSaveData> {
 	public readonly multiplier: number;
-	readonly type = 'production_multiplier';
+
+	public static STRING_TYPE = 'production_multiplier';
+
+	readonly type = ProductionMultiplierEffect.STRING_TYPE;
 
 	constructor(config: ProductionEffectConfig) {
 		super(config);

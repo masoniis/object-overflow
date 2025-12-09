@@ -1,6 +1,6 @@
 # Object overflow
 
-Incremental object game made by **Mason Bott** and **Calvin Schaller **.
+Incremental object game made by **Mason Bott** and **Calvin Schaller**.
 
 - Deployed online at [object-overflow.vercel.app](https://object-overflow.vercel.app/)
 

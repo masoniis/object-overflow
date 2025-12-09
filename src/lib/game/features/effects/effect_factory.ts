@@ -53,7 +53,8 @@ export class EffectFactory {
 	// ------------------------------------------
 
 	private static registry = new Map<string, (id: string, data: any) => Effect>([
-		['production_multiplier', ProductionMultiplierEffect.fromSaveData]
+		[ProductionMultiplierEffect.STRING_TYPE, ProductionMultiplierEffect.fromSaveData]
+		// as more effects added this would get more registered stuff
 	]);
 
 	/**
